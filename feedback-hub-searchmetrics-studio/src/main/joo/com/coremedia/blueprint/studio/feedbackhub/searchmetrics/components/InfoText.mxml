@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<DisplayField xmlns:fx="http://ns.adobe.com/mxml/2009"
+              xmlns:exml="http://www.jangaroo.net/exml/0.8"
+              xmlns="exml:ext.config"
+              ui="{null}"
+              style="{CustomStyles.INFO_STYLE}">
+  <fx:Script><![CDATA[
+    import com.coremedia.blueprint.studio.feedbackhub.searchmetrics.CustomStyles;
+
+    public static const xtype:String = "com.coremedia.blueprint.studio.feedbackhub.searchmetrics.config.infoText";
+
+    private var config:InfoText;
+
+    public native function InfoText(config:InfoText = null);
+    ]]></fx:Script>
+</DisplayField>
