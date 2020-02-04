@@ -159,8 +159,13 @@
                             tooltip="{resourceManager.getString('com.coremedia.blueprint.studio.feedbackhub.searchmetrics.FeedbackHubSearchmetrics', 'qtip_content_score')}"
                             iconCls="{resourceManager.getString('com.coremedia.icons.CoreIcons', 'help')}"/>
                     <Container flex="1"/>
-                    <components:InfoText
-                            value="{resourceManager.getString('com.coremedia.blueprint.studio.feedbackhub.searchmetrics.FeedbackHubSearchmetrics', 'searchmetrics_target_score')}"/>
+                    <components:InfoText>
+                      <components:plugins>
+                        <ui:BindPropertyPlugin componentProperty="value"
+                                               transformer="{targetScoreTransformer}"
+                                               bindTo="{getBriefingInfoExpression().extendBy(SearchmetricsPropertyNames.INFOS + '.' + SearchmetricsPropertyNames.CONTENT_SCORE_GOAL)}" />
+                      </components:plugins>
+                    </components:InfoText>
                   </items>
                   <layout>
                     <layout_HBox align="stretch"/>
@@ -180,7 +185,7 @@
                                      propertyName="length"
                                      toPercentage="{false}"
                                      qtip="{resourceManager.getString('com.coremedia.blueprint.studio.feedbackhub.searchmetrics.FeedbackHubSearchmetrics', 'qtip_word_count')}"
-                                     targetValueExpression="{getContentValidationExpression().extendBy('targetLength')}"/>
+                                     targetValueExpression="{getContentValidationExpression().extendBy(SearchmetricsPropertyNames.TARGET_LENGTH)}"/>
                 <components:ScoreBar bindTo="{getContentValidationExpression()}"
                                      label="{resourceManager.getString('com.coremedia.blueprint.studio.feedbackhub.searchmetrics.FeedbackHubSearchmetrics', 'searchmetrics_sentence_structure')}"
                                      toPercentage="{true}"

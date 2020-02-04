@@ -15,6 +15,7 @@ import com.coremedia.ui.data.impl.RemoteServiceMethodResponse;
 import com.coremedia.ui.util.EventUtil;
 
 import ext.ObjectUtil;
+import ext.StringUtil;
 import ext.button.Button;
 import ext.panel.Panel;
 import ext.tab.TabPanel;
@@ -283,6 +284,11 @@ public class SearchmetricsFeedbackItemPanelBase extends FeedbackItemPanel {
           }
         }
       });
+  }
+
+  internal function targetScoreTransformer(value:Number):String {
+    var msg:String = resourceManager.getString('com.coremedia.blueprint.studio.feedbackhub.searchmetrics.FeedbackHubSearchmetrics', 'searchmetrics_target_score');
+    return StringUtil.format(msg, value);
   }
 }
 }
