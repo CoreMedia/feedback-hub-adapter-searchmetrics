@@ -32,11 +32,11 @@ public class BriefingCacheKey extends CacheKey<Briefing> {
 
   @Override
   public Briefing evaluate(Cache cache) {
-    Cache.dependencyOn(dependencyId());
+    Cache.cacheFor(CACHE_DURATION_MINUTES, TimeUnit.MINUTES);
+
     BriefingQuery query = new BriefingQuery(briefingId);
     Optional<QueryResult> queryResult = connector.postResource(settings, query.toString(), QueryResult.class);
 
-    Cache.cacheFor(CACHE_DURATION_MINUTES, TimeUnit.MINUTES);
     return queryResult.map(queryResult1 -> queryResult1.getData().getContentExperience().getBriefing()).orElse(null);
   }
 

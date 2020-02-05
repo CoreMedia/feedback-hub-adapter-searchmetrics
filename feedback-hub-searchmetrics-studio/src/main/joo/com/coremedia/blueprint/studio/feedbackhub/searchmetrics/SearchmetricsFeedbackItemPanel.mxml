@@ -163,7 +163,7 @@
                       <components:plugins>
                         <ui:BindPropertyPlugin componentProperty="value"
                                                transformer="{targetScoreTransformer}"
-                                               bindTo="{getBriefingInfoExpression().extendBy(SearchmetricsPropertyNames.INFOS + '.' + SearchmetricsPropertyNames.CONTENT_SCORE_GOAL)}" />
+                                               bindTo="{getBriefingValueExpression().extendBy(SearchmetricsPropertyNames.INFOS + '.' + SearchmetricsPropertyNames.CONTENT_SCORE_GOAL)}" />
                       </components:plugins>
                     </components:InfoText>
                   </items>

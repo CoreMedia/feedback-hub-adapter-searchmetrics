@@ -13,7 +13,7 @@ public class SearchmetricsPropertyNames {
   public static const QUESTION:String = "question";
   public static const CONTENTSCORE:String = "contentScore";
   public static const CONTENT_SCORE:String = "content_score";
-  public static const CONTENT_SCORE_GOAL:String = "contentScoreGoal";
+  public static const CONTENT_SCORE_GOAL:String = "content_score_goal";
 
   public static const URL:String = "url";
   public static const DUPLICATION_SCORE:String = "duplication_score";

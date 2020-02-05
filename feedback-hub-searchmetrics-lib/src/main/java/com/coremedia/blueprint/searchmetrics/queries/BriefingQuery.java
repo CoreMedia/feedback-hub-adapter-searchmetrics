@@ -9,6 +9,9 @@ public class BriefingQuery implements Query {
           "    briefing(id:\\\"'id'\\\") {\n" +
           "      project_id\n" +
           "      id\n" +
+          "      infos {\n" +
+          "        content_score_goal\n" +
+          "      }" +
           "      content\n" +
           "      main_topic\n" +
           "      name\n" +
