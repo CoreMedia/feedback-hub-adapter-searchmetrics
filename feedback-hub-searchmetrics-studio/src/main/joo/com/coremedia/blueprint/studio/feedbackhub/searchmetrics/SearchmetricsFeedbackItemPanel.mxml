@@ -116,7 +116,7 @@
                 </Container>
               </items>
               <plugins>
-                <ui:BindVisibilityPlugin bindTo="{getBriefingInfoExpression()}"/>
+                <ui:BindVisibilityPlugin bindTo="{getBriefingInfoExpression()}" />
               </plugins>
               <layout>
                 <layout_HBox align="stretch"/>
@@ -127,15 +127,14 @@
               <items>
                 <Button ui="{ButtonSkin.MATERIAL_PRIMARY.getSkin()}"
                         handler="{applyBriefingSelection}"
-                        text="{resourceManager.getString('com.coremedia.blueprint.studio.feedbackhub.searchmetrics.FeedbackHubSearchmetrics', 'searchmetrics_briefing_apply_button')}">
-                  <plugins>
-                    <ui:BindVisibilityPlugin bindTo="{getBriefingInfoExpression()}"/>
-                  </plugins>
-                </Button>
+                        text="{resourceManager.getString('com.coremedia.blueprint.studio.feedbackhub.searchmetrics.FeedbackHubSearchmetrics', 'searchmetrics_briefing_apply_button')}" />
               </items>
               <layout>
                 <layout_HBox align="stretch" pack="end" />
               </layout>
+              <plugins>
+                <ui:BindVisibilityPlugin bindTo="{getBriefingInfoExpression()}"/>
+              </plugins>
             </Container>
           </items>
           <layout>

@@ -41,7 +41,7 @@ public class SearchmetricsFeedbackItemPanelBase extends FeedbackItemPanel {
   private var briefingInfoExpression:ValueExpression;
   private var contentValidationExpression:ValueExpression;
   private var briefingExpression:ValueExpression;
-  private var disabledExpression:ValueExpression;
+  private var noValidationExpression:ValueExpression;
 
   private var refreshButton:Button;
   private var content:Content;
@@ -127,13 +127,13 @@ public class SearchmetricsFeedbackItemPanelBase extends FeedbackItemPanel {
   }
 
   internal function getDisabledExpression(config:SearchmetricsFeedbackItemPanel = null):ValueExpression {
-    if (!disabledExpression) {
-      disabledExpression = ValueExpressionFactory.createFromFunction(function ():Boolean {
+    if (!noValidationExpression) {
+      noValidationExpression = ValueExpressionFactory.createFromFunction(function ():Boolean {
         var noFeedback:Boolean = !SearchmetricsFeedbackItem(feedbackItem).feedback || SearchmetricsFeedbackItem(feedbackItem).feedback.contentValidation === null;
         return noFeedback;
       });
     }
-    return disabledExpression;
+    return noValidationExpression;
   }
 
   internal function getBriefingContentExpression():ValueExpression {
