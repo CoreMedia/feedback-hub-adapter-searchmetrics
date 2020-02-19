@@ -68,6 +68,9 @@
       <layout>
         <layout_HBox align="stretch" pack="start"/>
       </layout>
+      <plugins>
+        <ui:BindVisibilityPlugin bindTo="{config.briefingExpression.extendBy(SearchmetricsPropertyNames.TITLE)}"/>
+      </plugins>
     </Container>
   </local:items>
 </local:HeaderBase>

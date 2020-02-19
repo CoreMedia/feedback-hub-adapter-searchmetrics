@@ -42,7 +42,9 @@ public class SearchmetricsContentFeedbackProvider implements ContentFeedbackProv
     Briefing briefing = searchmetricsService.getContentBriefing(settings, content.getId());
     if (briefing != null) {
       contentValidation = searchmetricsService.validateContent(settings, briefing.getId(), content);
-      contentValidation.getDuplicationCheckResults().sort((o2, o1) -> o1.getDuplicationScore() - o2.getDuplicationScore());
+      if(contentValidation.getDuplicationCheckResults() != null) {
+        contentValidation.getDuplicationCheckResults().sort((o2, o1) -> o1.getDuplicationScore() - o2.getDuplicationScore());
+      }
     }
     else {
       LOG.info("No briefing assigment for content {}, skipping searchmetrics validation.", content.getId());
