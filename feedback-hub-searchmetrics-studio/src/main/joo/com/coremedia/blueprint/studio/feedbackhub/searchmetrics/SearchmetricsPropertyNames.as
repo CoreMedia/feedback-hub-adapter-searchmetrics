@@ -8,16 +8,19 @@ public class SearchmetricsPropertyNames {
   public static const ID:String = "id";
 
 
-  public static const TARGETLENGTH:String = "targetLength";
+  public static const TARGET_LENGTH:String = "targetLength";
   public static const LENGTH:String = "length";
   public static const QUESTION:String = "question";
   public static const CONTENTSCORE:String = "contentScore";
   public static const CONTENT_SCORE:String = "content_score";
+  public static const CONTENT_SCORE_GOAL:String = "content_score_goal";
+
   public static const URL:String = "url";
   public static const DUPLICATION_SCORE:String = "duplication_score";
   public static const NATURAL_LANGUAGE_SCORE:String = "natural_language_score";
   public static const COVERAGE_SCORE:String = "coverage_score";
   public static const CONTENT:String = "content";
+  public static const INFOS:String = "infos";
   public static const LANGUAGE:String = "language";
   public static const TERM_ID:String = "term_id";
 

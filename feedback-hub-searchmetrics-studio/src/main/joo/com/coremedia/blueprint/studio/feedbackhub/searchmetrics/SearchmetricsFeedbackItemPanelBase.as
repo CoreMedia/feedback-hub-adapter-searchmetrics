@@ -15,6 +15,7 @@ import com.coremedia.ui.data.impl.RemoteServiceMethodResponse;
 import com.coremedia.ui.util.EventUtil;
 
 import ext.ObjectUtil;
+import ext.StringUtil;
 import ext.button.Button;
 import ext.panel.Panel;
 import ext.tab.TabPanel;
@@ -40,7 +41,7 @@ public class SearchmetricsFeedbackItemPanelBase extends FeedbackItemPanel {
   private var briefingInfoExpression:ValueExpression;
   private var contentValidationExpression:ValueExpression;
   private var briefingExpression:ValueExpression;
-  private var disabledExpression:ValueExpression;
+  private var noValidationExpression:ValueExpression;
 
   private var refreshButton:Button;
   private var content:Content;
@@ -126,13 +127,13 @@ public class SearchmetricsFeedbackItemPanelBase extends FeedbackItemPanel {
   }
 
   internal function getDisabledExpression(config:SearchmetricsFeedbackItemPanel = null):ValueExpression {
-    if (!disabledExpression) {
-      disabledExpression = ValueExpressionFactory.createFromFunction(function ():Boolean {
+    if (!noValidationExpression) {
+      noValidationExpression = ValueExpressionFactory.createFromFunction(function ():Boolean {
         var noFeedback:Boolean = !SearchmetricsFeedbackItem(feedbackItem).feedback || SearchmetricsFeedbackItem(feedbackItem).feedback.contentValidation === null;
         return noFeedback;
       });
     }
-    return disabledExpression;
+    return noValidationExpression;
   }
 
   internal function getBriefingContentExpression():ValueExpression {
@@ -283,6 +284,11 @@ public class SearchmetricsFeedbackItemPanelBase extends FeedbackItemPanel {
           }
         }
       });
+  }
+
+  internal function targetScoreTransformer(value:Number):String {
+    var msg:String = resourceManager.getString('com.coremedia.blueprint.studio.feedbackhub.searchmetrics.FeedbackHubSearchmetrics', 'searchmetrics_target_score');
+    return StringUtil.format(msg, value);
   }
 }
 }

@@ -29,6 +29,6 @@
     <local:ScoreBar bindTo="{config.contentValidationExpression}"
                     label="{resourceManager.getString('com.coremedia.blueprint.studio.feedbackhub.searchmetrics.FeedbackHubSearchmetrics', 'searchmetrics_word_count')}"
                     propertyName="{SearchmetricsPropertyNames.LENGTH}"
-                    targetValueExpression="{config.contentValidationExpression.extendBy(SearchmetricsPropertyNames.TARGETLENGTH)}"/>
+                    targetValueExpression="{config.contentValidationExpression.extendBy(SearchmetricsPropertyNames.TARGET_LENGTH)}"/>
   </editor:items>
 </editor:CollapsibleFormPanel>

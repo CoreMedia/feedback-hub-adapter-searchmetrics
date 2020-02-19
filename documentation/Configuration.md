@@ -1,6 +1,6 @@
-# Social Media Hub Configuration
+# Adapter Configuration
 
-The configuration of the Feedback Hub adpater consists of different settings documents that can be
+The configuration of the adpater consist of a settings documents that can be
 put in a global or site-specific folders.
 
 - Global: _/Settings/Options/Settings/Feedback Hub/_
@@ -11,7 +11,7 @@ put in a global or site-specific folders.
 
 The adapter settings can be configured on a global or site specific level. The following
 XML shows an example configuration. If you don't know how to create your Searchmetrics API key,
-please visit https://developers.searchmetrics.com/ for more detailled instructions.
+please visit https://developers.searchmetrics.com/ for more detailed instructions.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" ?>
@@ -30,6 +30,7 @@ please visit https://developers.searchmetrics.com/ for more detailled instructio
           <StringProperty Name="apiKey">YOUR_API_KEY</StringProperty>
           <StringProperty Name="sharedSecret">YOUR_SHARED_API_KEY</StringProperty>
           <StringProperty Name="propertyName">detailText</StringProperty>
+          <StringProperty Name="projectId">YOUR_PROJECT_ID</StringProperty>
           <BooleanProperty Name="includeKeywords">true</BooleanProperty>
           <BooleanProperty Name="includeTaxonomies">true</BooleanProperty>
         </Struct>

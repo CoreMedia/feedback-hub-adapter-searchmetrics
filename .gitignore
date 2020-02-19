@@ -2,6 +2,7 @@
 *.iml
 *.ipr
 *.iws
+*.class
 .idea/
 
 # Maven:
@@ -62,3 +63,4 @@ overlays/
 # Temporary files
 tmp/
 temp/
+target/

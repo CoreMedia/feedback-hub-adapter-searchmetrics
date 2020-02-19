@@ -17,6 +17,8 @@ public class Briefing {
   @JsonProperty("main_topic")
   private String mainTopic;
 
+  private BriefingInfos infos;
+
 //  @JsonProperty("topics_coverage")
 //  private TopicsCoverage topicsCoverage;
 
@@ -120,6 +122,14 @@ public class Briefing {
 
   public void setQuestions(List<Questions> questions) {
     this.questions = questions;
+  }
+
+  public BriefingInfos getInfos() {
+    return infos;
+  }
+
+  public void setInfos(BriefingInfos infos) {
+    this.infos = infos;
   }
 
 //  public TopicsCoverage getTopicsCoverage() {
