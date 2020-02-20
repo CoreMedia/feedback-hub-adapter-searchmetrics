@@ -98,7 +98,7 @@ public class ScoreBarBase extends Container {
       var html:String = '<table cellpadding="0" cellspacing="1" border="0" style="width: 100%;table-layout: fixed;"><tr style="height:' + BAR_HEIGHT + 'px;">';
 
       for (var i:int = 0; i < maxValue; i++) {
-        var color:String = "#dcdbdb";
+        var color:String = "#efefef";
         if (i <= score && score > 0) {
           color = ScoreUtil.getColor(score * multiplier, reverseScoreColor)
         }
@@ -114,7 +114,7 @@ public class ScoreBarBase extends Container {
     }
     else {
       field.setValue('<div style="width: 100%;text-align: center;">' +
-              '<div style="height:' + BAR_HEIGHT + 'px;background-color:#dcdbdb;width: 100%;"></div>' +
+              '<div style="height:' + BAR_HEIGHT + 'px;background-color:#efefef;width: 100%;"></div>' +
               '<div style="height:' + BAR_HEIGHT + 'px;margin-top:-' + BAR_HEIGHT + 'px;background-color:' +
               ScoreUtil.getColor(score, reverseScoreColor) + ';width: ' + ScoreUtil.formatScore(score) + '%;"></div>' +
               '</div>');

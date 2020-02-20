@@ -25,7 +25,7 @@
         <DisplayField ui="{null}" value="{getScore(config)}"
                       style="padding-top:12px;padding-right:4px;height:60px;color:black;display:inline;font-family:sans-serif;font-size:44px;font-weight:bold;white-space: pre-wrap;"/>
         <DisplayField ui="{null}" value="/100"
-                      style="padding-top:18px;height:60px;color:#b1b1b1;display:inline;font-family:sans-serif;position:absolute; font-size:24px;"/>
+                      style="padding-top:18px;height:60px;color:#b3b1b1;display:inline;font-family:sans-serif;position:absolute; font-size:24px;"/>
         <Container flex="1"/>
       </items>
       <layout>

@@ -38,7 +38,7 @@
                     bindTo="{ValueExpressionFactory.createFromValue(!(config.showScoreValue === false))}"/>
           </plugins>
         </DisplayField>
-        <local:InfoText style="padding-top: 4px;">
+        <local:InfoText style="color: #b3b1b1;padding-top: 4px;">
           <local:plugins>
             <ui:BindPropertyPlugin componentProperty="value" bindTo="{getUnitExpression(config)}"/>
             <ui:BindVisibilityPlugin

@@ -89,7 +89,7 @@ public class ScoreCircleBase extends Container {
 
     if(targetScoreExpression && targetScoreExpression.getValue()) {
       var targetValue:Number = targetScoreExpression.getValue();
-      ctx.strokeStyle = '#c6c6c6';
+      ctx.strokeStyle = '#c8c6c6';
       ctx.lineWidth = 3;
       ctx.lineCap = 'butt';
       ctx.beginPath();
