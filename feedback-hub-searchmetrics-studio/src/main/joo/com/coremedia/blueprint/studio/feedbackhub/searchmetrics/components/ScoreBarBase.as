@@ -65,8 +65,8 @@ public class ScoreBarBase extends Container {
           return '/' + config.targetValueExpression.getValue();
         }
 
-        if (!config.unit) {
-          return "%";
+        if (config.unit === null || config.unit === undefined) {
+          return "/100";
         }
 
         if (StringUtil.trim(config.unit).length > 0) {
@@ -100,13 +100,13 @@ public class ScoreBarBase extends Container {
       for (var i:int = 0; i < maxValue; i++) {
         var color:String = "#dcdbdb";
         if (i <= score && score > 0) {
-          color = ScoreUtil.getColor(score*multiplier, reverseScoreColor)
+          color = ScoreUtil.getColor(score * multiplier, reverseScoreColor)
         }
         html += '<td style="background-color: ' + color + '" />';
       }
       html += '</tr><tr>';
       for (var j:int = 0; j < maxValue; j++) {
-        html += '<td align="center" data-qtip="' + (j+1) + '" style="font-size:10px;">' + (j+1) + '</td>';
+        html += '<td align="center" data-qtip="' + (j + 1) + '" style="font-size:10px;">' + (j + 1) + '</td>';
       }
       html += '</tr></table>';
       field.setValue(html);
@@ -122,13 +122,19 @@ public class ScoreBarBase extends Container {
   }
 
   protected function formatScore(score:Number):String {
-    if(score === undefined) {
+    if (score === undefined) {
       score = 0;
     }
     if (toPercentage) {
       score = score * 100;
     }
-    return parseFloat('' + score).toFixed(0);
+    var score:* =  parseFloat('' + score).toFixed(0);
+
+    if(this.unit === '') {
+      score = score + '%';
+    }
+
+    return score;
   }
 }
 }

@@ -72,10 +72,12 @@ public class QuestionsListBase extends Container {
     var result:Array = [];
     var questions:Array = config.bindTo.extendBy(config.propertyName).getValue();
     if (questions) {
-      var data:Array = questions[0].data;
-      if (data) {
-        for each(var q:Object in data) {
-          result.push(ValueExpressionFactory.createFromValue(new Question(q)));
+      for each(var question:Object in questions) {
+        var data:Array = question.data;
+        if (data) {
+          for each(var q:Object in data) {
+            result.push(ValueExpressionFactory.createFromValue(new Question(q)));
+          }
         }
       }
     }

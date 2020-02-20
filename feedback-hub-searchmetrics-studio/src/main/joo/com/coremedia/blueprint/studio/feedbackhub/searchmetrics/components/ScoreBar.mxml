@@ -30,7 +30,7 @@
           </ui:plugins>
         </ui:IconDisplayField>
         <Container flex="1"/>
-        <DisplayField ui="{null}" style="{CustomStyles.COUNTER_LABEL}">
+        <DisplayField ui="{null}" style="{CustomStyles.COUNTER_LABEL + 'padding-top: 4px;'}">
           <plugins>
             <ui:BindPropertyPlugin componentProperty="value" bindTo="{config.bindTo.extendBy(config.propertyName)}"
                                    transformer="{formatScore}"/>
@@ -38,7 +38,7 @@
                     bindTo="{ValueExpressionFactory.createFromValue(!(config.showScoreValue === false))}"/>
           </plugins>
         </DisplayField>
-        <local:InfoText>
+        <local:InfoText style="padding-top: 4px;">
           <local:plugins>
             <ui:BindPropertyPlugin componentProperty="value" bindTo="{getUnitExpression(config)}"/>
             <ui:BindVisibilityPlugin

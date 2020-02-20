@@ -4,7 +4,8 @@
         xmlns:exml="http://www.jangaroo.net/exml/0.8"
         xmlns="exml:ext.config"
         xmlns:local="com.coremedia.blueprint.studio.feedbackhub.searchmetrics.components.*"
-        minWidth="180">
+        minWidth="180"
+        height="200">
   <fx:Metadata>
     [ResourceBundle('com.coremedia.blueprint.studio.feedbackhub.searchmetrics.FeedbackHubSearchmetrics')]
   </fx:Metadata>
@@ -18,6 +19,19 @@
 
   <local:items>
     <DisplayField itemId="{SCORE_ITEM_ID}" style="display:block;height: 200px;"/>
+    <Container ui="{null}" style="position:absolute !important; margin-top: -112px;height:60px;">
+      <items>
+        <Container flex="1"/>
+        <DisplayField ui="{null}" value="{getScore(config)}"
+                      style="padding-top:12px;padding-right:4px;height:60px;color:black;display:inline;font-family:sans-serif;font-size:44px;font-weight:bold;white-space: pre-wrap;"/>
+        <DisplayField ui="{null}" value="/100"
+                      style="padding-top:18px;height:60px;color:#b1b1b1;display:inline;font-family:sans-serif;position:absolute; font-size:24px;"/>
+        <Container flex="1"/>
+      </items>
+      <layout>
+        <layout_HBox align="stretch" pack="middle"/>
+      </layout>
+    </Container>
   </local:items>
   <local:layout>
     <layout_VBox align="stretch" pack="start"/>

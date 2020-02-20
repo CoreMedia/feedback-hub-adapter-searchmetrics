@@ -171,6 +171,7 @@
                   </layout>
                 </Container>
                 <components:ScoreCircle bindTo="{getContentValidationExpression()}"
+                                        targetScoreExpression="{getBriefingValueExpression().extendBy(SearchmetricsPropertyNames.INFOS + '.' + SearchmetricsPropertyNames.CONTENT_SCORE_GOAL)}"
                                         style="margin-top: -12px;"
                                         toPercentage="{true}"
                                         propertyName="{SearchmetricsPropertyNames.CONTENTSCORE + '.' + SearchmetricsPropertyNames.CONTENT_SCORE}"/>
@@ -198,6 +199,7 @@
                 <components:ScoreBar bindTo="{getContentValidationExpression()}"
                                      label="{resourceManager.getString('com.coremedia.blueprint.studio.feedbackhub.searchmetrics.FeedbackHubSearchmetrics', 'searchmetrics_repetitions')}"
                                      toPercentage="{true}"
+                                     unit="{''}"
                                      reverseScoreColor="{true}"
                                      qtip="{resourceManager.getString('com.coremedia.blueprint.studio.feedbackhub.searchmetrics.FeedbackHubSearchmetrics', 'qtip_repetitions')}"
                                      propertyName="{SearchmetricsPropertyNames.CONTENTSCORE + '.' + SearchmetricsPropertyNames.REPETITION_SCORE}"/>
