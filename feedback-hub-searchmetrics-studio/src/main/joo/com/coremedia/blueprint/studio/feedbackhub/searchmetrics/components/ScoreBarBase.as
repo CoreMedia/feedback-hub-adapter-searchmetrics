@@ -28,6 +28,9 @@ public class ScoreBarBase extends Container {
   public var targetValueExpression:ValueExpression;
 
   [Bindable]
+  public var targetScoreExpression:ValueExpression;
+
+  [Bindable]
   public var unit:String;
 
   [Bindable]
@@ -113,11 +116,20 @@ public class ScoreBarBase extends Container {
       field.setHeight(42);
     }
     else {
-      field.setValue('<div style="width: 100%;text-align: center;">' +
-              '<div style="height:' + BAR_HEIGHT + 'px;background-color:#efefef;width: 100%;"></div>' +
-              '<div style="height:' + BAR_HEIGHT + 'px;margin-top:-' + BAR_HEIGHT + 'px;background-color:' +
-              ScoreUtil.getColor(score, reverseScoreColor) + ';width: ' + ScoreUtil.formatScore(score) + '%;"></div>' +
-              '</div>');
+      var colorScore = score;
+      if(targetScoreExpression) {
+        colorScore = score * 100 / targetScoreExpression.getValue();
+      }
+
+      html = '<div style="width: 100%;text-align: center;">';
+      html += '<div style="height:' + BAR_HEIGHT + 'px;background-color:#efefef;width: 100%;"></div>' +
+              '<div style="height:' + BAR_HEIGHT + 'px;margin-top:-' + BAR_HEIGHT + 'px;background-color:' + ScoreUtil.getColor(colorScore, reverseScoreColor) + ';width: ' + ScoreUtil.formatScore(score) + '%;"></div>';
+      if (targetScoreExpression) {
+        var targetScore = this.targetScoreExpression.getValue();
+        html = html + '<div style="height:' + (BAR_HEIGHT+3) + 'px;margin-top:-' + (BAR_HEIGHT+3) + 'px;background-color: transparent;border-right: solid #c8c6c6 3px;width: ' + targetScore+ '%;" />';
+      }
+      html += '</div>';
+      field.setValue(html);
     }
   }
 
@@ -128,9 +140,9 @@ public class ScoreBarBase extends Container {
     if (toPercentage) {
       score = score * 100;
     }
-    var score:* =  parseFloat('' + score).toFixed(0);
+    var score:* = parseFloat('' + score).toFixed(0);
 
-    if(this.unit === '') {
+    if (this.unit === '') {
       score = score + '%';
     }
 

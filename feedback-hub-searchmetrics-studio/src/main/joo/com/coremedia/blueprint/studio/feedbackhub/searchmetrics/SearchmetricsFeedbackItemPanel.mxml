@@ -231,7 +231,8 @@
             <ui:BindPropertyPlugin componentProperty="disabled" bindTo="{getDisabledExpression(config)}"/>
           </plugins>
           <items>
-            <components:MainScores contentValidationExpression="{getContentValidationExpression()}"/>
+            <components:MainScores contentValidationExpression="{getContentValidationExpression()}"
+                                   briefingExpression="{getBriefingValueExpression()}"/>
             <editor:CollapsibleFormPanel
                     title="{resourceManager.getString('com.coremedia.blueprint.studio.feedbackhub.searchmetrics.FeedbackHubSearchmetrics', 'searchmetrics_must_have_keywords')}">
               <editor:items>
@@ -270,7 +271,8 @@
             <ui:BindPropertyPlugin componentProperty="disabled" bindTo="{getDisabledExpression(config)}"/>
           </plugins>
           <items>
-            <components:MainScores contentValidationExpression="{getContentValidationExpression()}"/>
+            <components:MainScores contentValidationExpression="{getContentValidationExpression()}"
+                                   briefingExpression="{getBriefingValueExpression()}"/>
             <editor:CollapsibleFormPanel
                     title="{resourceManager.getString('com.coremedia.blueprint.studio.feedbackhub.searchmetrics.FeedbackHubSearchmetrics', 'searchmetrics_tab_questions')}">
               <editor:items>
@@ -289,7 +291,8 @@
             <ui:BindPropertyPlugin componentProperty="disabled" bindTo="{getDisabledExpression(config)}"/>
           </plugins>
           <items>
-            <components:MainScores contentValidationExpression="{getContentValidationExpression()}"/>
+            <components:MainScores contentValidationExpression="{getContentValidationExpression()}"
+                                   briefingExpression="{getBriefingValueExpression()}"/>
             <editor:CollapsibleFormPanel
                     title="{resourceManager.getString('com.coremedia.blueprint.studio.feedbackhub.searchmetrics.FeedbackHubSearchmetrics', 'searchmetrics_competitors_duplicate_check')}">
               <editor:items>
