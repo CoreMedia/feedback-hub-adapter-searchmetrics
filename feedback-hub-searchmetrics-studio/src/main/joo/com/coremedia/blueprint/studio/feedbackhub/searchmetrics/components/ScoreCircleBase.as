@@ -80,22 +80,26 @@ public class ScoreCircleBase extends Container {
 
     drawCircle('#efefef', options.lineWidth, 100 / 100);
     if(parseInt(""+score) > 0) {
-      drawCircle(ScoreUtil.getColor(score), options.lineWidth, options.percent / 100);
+      var colorScore = score;
+      if(targetScoreExpression) {
+        colorScore = score * 100 / targetScoreExpression.getValue();
+      }
+      drawCircle(ScoreUtil.getColor(colorScore), options.lineWidth, options.percent / 100);
     }
 
     if(targetScoreExpression && targetScoreExpression.getValue()) {
       var targetValue:Number = targetScoreExpression.getValue();
-      ctx.strokeStyle = ScoreUtil.getColor(targetValue);
-      ctx.lineWidth = 5;
-      ctx.lineCap = 'round';
+      ctx.strokeStyle = '#c6c6c6';
+      ctx.lineWidth = 3;
+      ctx.lineCap = 'butt';
       ctx.beginPath();
 
       var delta = Math.PI * 2 * targetValue / 100;
       var startX = (radius-10)*Math.cos(delta);
       var startY = (radius-10)*Math.sin(delta);
 
-      var endX = (radius+3)*Math.cos(delta);
-      var endY = (radius+3)*Math.sin(delta);
+      var endX = (radius+6)*Math.cos(delta);
+      var endY = (radius+6)*Math.sin(delta);
       ctx.moveTo(startX, startY);
       ctx.lineTo(endX, endY);
       ctx.stroke();
