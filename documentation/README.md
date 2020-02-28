@@ -9,6 +9,18 @@
 
 The Searchmetrics Feedback Hub Adapter integrates Searchmetrics briefings into the CoreMedia Feedback Hub.
 
+### Overall Scoring Overview
+![Searchmetrics](searchmetrics.png "Searchmetrics Scoring")
+
+### Keyword Scoring 
+![Searchmetrics](searchmetrics_keys.png "Searchmetrics Scoring")
+
+### Content Questions
+![Searchmetrics](searchmetrics_scores.png "Searchmetrics Scoring")
+
+### Competitors Overview
+![Searchmetrics](searchmetrics_comp.png "Searchmetrics Scoring")
+
 ## CoreMedia Labs Prototypes
 
 This is a CoreMedia Labs prototype which means it __does not provide a stable API__.

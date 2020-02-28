@@ -133,14 +133,15 @@ public class ScoreBarBase extends Container {
     }
   }
 
-  protected function formatScore(score:Number):String {
+  protected function formatScore(score:*):String {
     if (score === undefined) {
       score = 0;
     }
     if (toPercentage) {
       score = score * 100;
     }
-    var score:* = parseFloat('' + score).toFixed(0);
+
+    score = parseFloat('' + score).toFixed(0);
 
     if (this.unit === '') {
       score = score + '%';
