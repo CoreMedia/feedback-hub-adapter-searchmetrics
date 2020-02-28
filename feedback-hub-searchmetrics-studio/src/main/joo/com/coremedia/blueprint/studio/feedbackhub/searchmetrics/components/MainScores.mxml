@@ -11,6 +11,8 @@
     import com.coremedia.blueprint.studio.feedbackhub.searchmetrics.SearchmetricsPropertyNames;
     import com.coremedia.ui.data.ValueExpression;
 
+    import ext.StringUtil;
+
     public static const xtype:String = "com.coremedia.blueprint.studio.feedbackhub.searchmetrics.config.mainScores";
 
     private var config:MainScores;
@@ -22,11 +24,18 @@
     public var briefingExpression:ValueExpression;
 
     public native function MainScores(config:MainScores = null);
+
+    private function getMainScoreLabel(config:MainScores):String {
+      var label:String = resourceManager.getString('com.coremedia.blueprint.studio.feedbackhub.searchmetrics.FeedbackHubSearchmetrics', 'searchmetrics_content_score');
+      var targetScore:String = resourceManager.getString('com.coremedia.blueprint.studio.feedbackhub.searchmetrics.FeedbackHubSearchmetrics', 'searchmetrics_target_score');
+      targetScore = StringUtil.format(targetScore, config.briefingExpression.extendBy(SearchmetricsPropertyNames.INFOS + '.' + SearchmetricsPropertyNames.CONTENT_SCORE_GOAL).getValue());
+      return label + ' (' + targetScore + ')';
+    }
     ]]></fx:Script>
 
   <editor:items>
     <local:ScoreBar bindTo="{config.contentValidationExpression}"
-                    label="{resourceManager.getString('com.coremedia.blueprint.studio.feedbackhub.searchmetrics.FeedbackHubSearchmetrics', 'searchmetrics_content_score')}"
+                    label="{getMainScoreLabel(config)}"
                     toPercentage="{true}"
                     targetScoreExpression="{config.briefingExpression.extendBy(SearchmetricsPropertyNames.INFOS + '.' + SearchmetricsPropertyNames.CONTENT_SCORE_GOAL)}"
                     propertyName="{SearchmetricsPropertyNames.CONTENTSCORE + '.' + SearchmetricsPropertyNames.CONTENT_SCORE}"/>
