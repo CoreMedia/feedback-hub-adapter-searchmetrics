@@ -21,6 +21,9 @@ public class ScoreCircleBase extends Container {
   [Bindable]
   public var toPercentage:Boolean;
 
+  [Bindable]
+  public var targetScoreExpression:ValueExpression;
+
   public function ScoreCircleBase(config:ScoreCircle = null) {
     super(config);
   }
@@ -50,29 +53,14 @@ public class ScoreCircleBase extends Container {
 
     var canvas:* = window.document.createElement('canvas');
     canvas.setAttribute("style", "top:0;left:0;margin-left: -85px;");
+    canvas.setAttribute("id", "score-" + this.getItemId());
 
     var div:* = window.document.createElement('div');
     div.setAttribute('style', 'width: 100%;text-align: center;padding-left:85px;');
 
-    var span1:* = window.document.createElement('span');
-    span1.setAttribute("style", " color:black;display:inline;font-family:sans-serif;position:absolute;margin-left: -66px;top:100px;font-size:44px;font-weight:bold;white-space: pre-wrap;");
-
-    var percentValue:String = "" + options.percent;
-    while (percentValue.length < 3) {
-      percentValue = "  " + percentValue;
-    }
-
-    span1.textContent = percentValue;
-
-    var span2:* = window.document.createElement('span');
-    span2.setAttribute("style", " color:#b1b1b1;display:inline;font-family:sans-serif;position:absolute; top: 106px;margin-left:12px;font-size:24px;");
-    span2.textContent = '/100';
-
     var ctx:* = canvas.getContext('2d');
     canvas.width = canvas.height = options.size;
 
-    div.appendChild(span1);
-    div.appendChild(span2);
     div.appendChild(canvas);
     el.appendChild(div);
 
@@ -91,7 +79,43 @@ public class ScoreCircleBase extends Container {
     };
 
     drawCircle('#efefef', options.lineWidth, 100 / 100);
-    drawCircle(ScoreUtil.getColor(score), options.lineWidth, options.percent / 100);
+    if(parseInt(""+score) > 0) {
+      var colorScore = score;
+      if(targetScoreExpression) {
+        colorScore = score * 100 / targetScoreExpression.getValue();
+      }
+      drawCircle(ScoreUtil.getColor(colorScore), options.lineWidth, options.percent / 100);
+    }
+
+    if(targetScoreExpression && targetScoreExpression.getValue()) {
+      var targetValue:Number = targetScoreExpression.getValue();
+      ctx.strokeStyle = '#c8c6c6';
+      ctx.lineWidth = 3;
+      ctx.lineCap = 'butt';
+      ctx.beginPath();
+
+      var delta = Math.PI * 2 * targetValue / 100;
+      var startX = (radius-10)*Math.cos(delta);
+      var startY = (radius-10)*Math.sin(delta);
+
+      var endX = (radius+6)*Math.cos(delta);
+      var endY = (radius+6)*Math.sin(delta);
+      ctx.moveTo(startX, startY);
+      ctx.lineTo(endX, endY);
+      ctx.stroke();
+    }
+  }
+
+  protected function getScore(config:ScoreCircle):String {
+    var score:Number = config.bindTo.extendBy(config.propertyName).getValue();
+    if (score === undefined) {
+      score = 0;
+    }
+
+    if (config.toPercentage) {
+      score = score * 100;
+    }
+    return ScoreUtil.formatScore(score);
   }
 }
 }

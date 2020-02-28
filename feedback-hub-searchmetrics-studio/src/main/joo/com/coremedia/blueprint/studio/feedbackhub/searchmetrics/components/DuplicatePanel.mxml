@@ -10,6 +10,7 @@
   </fx:Metadata>
   <fx:Script><![CDATA[
     import com.coremedia.ui.skins.ButtonSkin;
+    import com.coremedia.ui.skins.DisplayFieldSkin;
 
     public static const xtype:String = "com.coremedia.blueprint.studio.feedbackhub.searchmetrics.config.duplicatePanel";
 
@@ -21,7 +22,7 @@
   <local:items>
     <Container flex="1">
       <items>
-        <Button ui="{ButtonSkin.LINK.getSkin()}" handler="{linkClick}">
+        <Button ui="{ButtonSkin.SIMPLE.getSkin()}" handler="{linkClick}">
           <plugins>
             <ui:BindPropertyPlugin componentProperty="text" bindTo="{config.bindTo.extendBy('url')}"/>
           </plugins>
@@ -33,7 +34,7 @@
     </Container>
     <Container width="80">
       <items>
-        <DisplayField>
+        <DisplayField ui="{DisplayFieldSkin.BOLD.getSkin()}">
           <plugins>
             <ui:BindPropertyPlugin componentProperty="value" bindTo="{config.bindTo.extendBy('duplication_score')}"
                                    transformer="{formatPercentage}"/>

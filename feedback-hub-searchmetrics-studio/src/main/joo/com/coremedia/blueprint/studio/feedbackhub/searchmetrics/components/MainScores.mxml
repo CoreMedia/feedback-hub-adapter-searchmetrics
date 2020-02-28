@@ -18,6 +18,9 @@
     [Bindable]
     public var contentValidationExpression:ValueExpression;
 
+    [Bindable]
+    public var briefingExpression:ValueExpression;
+
     public native function MainScores(config:MainScores = null);
     ]]></fx:Script>
 
@@ -25,6 +28,7 @@
     <local:ScoreBar bindTo="{config.contentValidationExpression}"
                     label="{resourceManager.getString('com.coremedia.blueprint.studio.feedbackhub.searchmetrics.FeedbackHubSearchmetrics', 'searchmetrics_content_score')}"
                     toPercentage="{true}"
+                    targetScoreExpression="{config.briefingExpression.extendBy(SearchmetricsPropertyNames.INFOS + '.' + SearchmetricsPropertyNames.CONTENT_SCORE_GOAL)}"
                     propertyName="{SearchmetricsPropertyNames.CONTENTSCORE + '.' + SearchmetricsPropertyNames.CONTENT_SCORE}"/>
     <local:ScoreBar bindTo="{config.contentValidationExpression}"
                     label="{resourceManager.getString('com.coremedia.blueprint.studio.feedbackhub.searchmetrics.FeedbackHubSearchmetrics', 'searchmetrics_word_count')}"

@@ -28,6 +28,9 @@ public class ScoreBarBase extends Container {
   public var targetValueExpression:ValueExpression;
 
   [Bindable]
+  public var targetScoreExpression:ValueExpression;
+
+  [Bindable]
   public var unit:String;
 
   [Bindable]
@@ -65,8 +68,8 @@ public class ScoreBarBase extends Container {
           return '/' + config.targetValueExpression.getValue();
         }
 
-        if (!config.unit) {
-          return "%";
+        if (config.unit === null || config.unit === undefined) {
+          return "/100";
         }
 
         if (StringUtil.trim(config.unit).length > 0) {
@@ -98,37 +101,53 @@ public class ScoreBarBase extends Container {
       var html:String = '<table cellpadding="0" cellspacing="1" border="0" style="width: 100%;table-layout: fixed;"><tr style="height:' + BAR_HEIGHT + 'px;">';
 
       for (var i:int = 0; i < maxValue; i++) {
-        var color:String = "#dcdbdb";
+        var color:String = "#efefef";
         if (i <= score && score > 0) {
-          color = ScoreUtil.getColor(score*multiplier, reverseScoreColor)
+          color = ScoreUtil.getColor(score * multiplier, reverseScoreColor)
         }
         html += '<td style="background-color: ' + color + '" />';
       }
       html += '</tr><tr>';
       for (var j:int = 0; j < maxValue; j++) {
-        html += '<td align="center" data-qtip="' + (j+1) + '" style="font-size:10px;">' + (j+1) + '</td>';
+        html += '<td align="center" data-qtip="' + (j + 1) + '" style="font-size:10px;">' + (j + 1) + '</td>';
       }
       html += '</tr></table>';
       field.setValue(html);
       field.setHeight(42);
     }
     else {
-      field.setValue('<div style="width: 100%;text-align: center;">' +
-              '<div style="height:' + BAR_HEIGHT + 'px;background-color:#dcdbdb;width: 100%;"></div>' +
-              '<div style="height:' + BAR_HEIGHT + 'px;margin-top:-' + BAR_HEIGHT + 'px;background-color:' +
-              ScoreUtil.getColor(score, reverseScoreColor) + ';width: ' + ScoreUtil.formatScore(score) + '%;"></div>' +
-              '</div>');
+      var colorScore = score;
+      if(targetScoreExpression) {
+        colorScore = score * 100 / targetScoreExpression.getValue();
+      }
+
+      html = '<div style="width: 100%;text-align: center;">';
+      html += '<div style="height:' + BAR_HEIGHT + 'px;background-color:#efefef;width: 100%;"></div>' +
+              '<div style="height:' + BAR_HEIGHT + 'px;margin-top:-' + BAR_HEIGHT + 'px;background-color:' + ScoreUtil.getColor(colorScore, reverseScoreColor) + ';width: ' + ScoreUtil.formatScore(score) + '%;"></div>';
+      if (targetScoreExpression) {
+        var targetScore = this.targetScoreExpression.getValue();
+        html = html + '<div style="height:' + (BAR_HEIGHT+3) + 'px;margin-top:-' + (BAR_HEIGHT+3) + 'px;background-color: transparent;border-right: solid #c8c6c6 3px;width: ' + targetScore+ '%;" />';
+      }
+      html += '</div>';
+      field.setValue(html);
     }
   }
 
-  protected function formatScore(score:Number):String {
-    if(score === undefined) {
+  protected function formatScore(score:*):String {
+    if (score === undefined) {
       score = 0;
     }
     if (toPercentage) {
       score = score * 100;
     }
-    return parseFloat('' + score).toFixed(0);
+
+    score = parseFloat('' + score).toFixed(0);
+
+    if (this.unit === '') {
+      score = score + '%';
+    }
+
+    return score;
   }
 }
 }
