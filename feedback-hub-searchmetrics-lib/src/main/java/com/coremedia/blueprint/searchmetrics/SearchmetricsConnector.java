@@ -51,7 +51,7 @@ public class SearchmetricsConnector {
 
   @NonNull
   private HttpEntity<String> buildRequestEntity(@NonNull SearchmetricsSettings settings, @Nullable String payload) {
-    return new HttpEntity<>(payload.replaceAll("\n", ""), buildHttpHeaders(settings));
+    return new HttpEntity<>(payload.replaceAll("\n", " "), buildHttpHeaders(settings));
   }
 
   @NonNull
