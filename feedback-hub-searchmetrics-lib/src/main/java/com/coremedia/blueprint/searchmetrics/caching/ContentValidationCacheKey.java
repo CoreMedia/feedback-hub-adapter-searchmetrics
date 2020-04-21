@@ -106,8 +106,8 @@ public class ContentValidationCacheKey extends CacheKey<ContentValidation> {
       contentText = contentText + getKeywords(content, KEYWORDS);
     }
 
-    if(contextText == null) {
-      contextText = "";
+    if(contentText == null) {
+      contentText = "";
     }
 
     return contentText;
