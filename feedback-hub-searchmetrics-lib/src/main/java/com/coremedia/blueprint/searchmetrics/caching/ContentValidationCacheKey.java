@@ -51,13 +51,11 @@ public class ContentValidationCacheKey extends CacheKey<ContentValidation> {
 
   @Override
   public ContentValidation evaluate(Cache cache) {
-    if (!StringUtils.isEmpty(this.text)) {
-      String input = text.replaceAll("\"", "").trim();
-      ValidateContentQuery query = new ValidateContentQuery(briefing.getId(), input);
-      Optional<QueryResult> queryResult = connector.postResource(settings, query.toString(), QueryResult.class);
-      if (queryResult.isPresent()) {
-        return queryResult.get().getData().getContentValidation();
-      }
+    String input = text.replaceAll("\"", "").trim();
+    ValidateContentQuery query = new ValidateContentQuery(briefing.getId(), input);
+    Optional<QueryResult> queryResult = connector.postResource(settings, query.toString(), QueryResult.class);
+    if (queryResult.isPresent()) {
+      return queryResult.get().getData().getContentValidation();
     }
 
     LOG.info("Empty detail text for {}, skipped searchmetrics analysis", content.getPath());
@@ -108,6 +106,10 @@ public class ContentValidationCacheKey extends CacheKey<ContentValidation> {
       contentText = contentText + getKeywords(content, KEYWORDS);
     }
 
+    if(contextText == null) {
+      contextText = "";
+    }
+
     return contentText;
   }
 
@@ -146,7 +148,7 @@ public class ContentValidationCacheKey extends CacheKey<ContentValidation> {
         if (!StringUtils.isEmpty(value)) {
           String[] keywords = value.trim().split(" ");
           for (String keyword : keywords) {
-            if(keyword.trim().length() > 0) {
+            if (keyword.trim().length() > 0) {
               builder.append(" ");
               builder.append(keyword.trim());
             }
