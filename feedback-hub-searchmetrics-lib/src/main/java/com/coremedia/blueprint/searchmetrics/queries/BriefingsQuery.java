@@ -1,6 +1,47 @@
 package com.coremedia.blueprint.searchmetrics.queries;
 
 /**
+ *  query {
+ *           content_experience {
+ *             briefings_list {
+ *               count,
+ *               briefings {
+ *                 id
+ *               }
+ *             }
+ *           }
+ * }
+ *
+ *  query {
+ *           content_experience {
+ *             briefing(id:"AXBiev9FVzDCx3DQ3_MV") {
+ *               id
+ *               name
+ *               topics {
+ *                 created
+ *                 email_notification
+ *                 state
+ *                 type
+ *                 value
+ *                 content_states {
+ *                   parts {
+ *                     questions
+ *                     terms
+ *                   }
+ *                 }
+ *               }
+ *               topics_coverage {
+ *                 topic
+ *                 keywords_coverage {
+ *                   keyword
+ *                   keyword_type
+ *                   current_frequency
+ *                   target_frequency
+ *                 }
+ *               }
+ *             }
+ *           }
+ * }
  *
  */
 public class BriefingsQuery implements Query {
