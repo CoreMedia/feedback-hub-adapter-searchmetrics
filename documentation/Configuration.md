@@ -1,7 +1,7 @@
 # Adapter Configuration
 
-The configuration of the adpater consist of a settings documents that can be
-put in a global or site-specific folders.
+The configuration of the adpater consists of a settings document that can be
+put in a global or site-specific folder.
 
 - Global: _/Settings/Options/Settings/Feedback Hub/_
 - Site specific: _&lt;SITE&gt;/Options/Settings/Feedback Hub/_
@@ -48,10 +48,10 @@ Every _settings_ sub-struct contains the following properties:
 | Property          | Description   |
 | ----------------- | ------------- |
 | apiKey            | The API key from the Searchmetrics developer portal |
-| sharedSecret      | The share secret from the Searchmetrics developer portal |
+| sharedSecret      | The shared secret from the Searchmetrics developer portal |
 | propertyName      | The richtext property name that should be used for analysis from the previously defined content type |
 | projectId         | The Searchmetrics project id (readable from the URL string in the Searchmetrics Content Editor) |
-| includeKeywords   | Set to true to include the plain text keywords into the content analysis |
-| includeKeywords   | Set to true to include taxonommy keywords into the content analysis |
+| includeKeywords   | Set to true to include the plain text keywords in the content analysis |
+| includeKeywords   | Set to true to include taxonommy keywords in the content analysis |
 
 
