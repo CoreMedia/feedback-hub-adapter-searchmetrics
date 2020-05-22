@@ -52,6 +52,6 @@ Every _settings_ sub-struct contains the following properties:
 | propertyName      | The richtext property name that should be used for analysis from the previously defined content type |
 | projectId         | The Searchmetrics project id (readable from the URL string in the Searchmetrics Content Editor) |
 | includeKeywords   | Set to true to include the plain text keywords in the content analysis |
-| includeKeywords   | Set to true to include taxonommy keywords in the content analysis |
+| includeKeywords   | Set to true to include taxonomy keywords in the content analysis |
 
 
