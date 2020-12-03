@@ -8,7 +8,6 @@ import com.coremedia.blueprint.searchmetrics.documents.BriefingInfo;
 import com.coremedia.blueprint.searchmetrics.documents.ContentValidation;
 import com.coremedia.blueprint.searchmetrics.helper.BriefingAssigments;
 import com.coremedia.cache.Cache;
-import com.coremedia.cap.content.Content;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
 
@@ -38,9 +37,9 @@ public class SearchmetricsServiceImpl implements SearchmetricsService {
 
   @NonNull
   @Override
-  public ContentValidation validateContent(@NonNull SearchmetricsSettings settings, @NonNull String briefingId, @NonNull Content content) {
+  public ContentValidation validate(@NonNull SearchmetricsSettings settings, @NonNull String briefingId, @NonNull String text) {
     Briefing briefing = getBriefing(settings, briefingId);
-    return cache.get(new ContentValidationCacheKey(connector, settings, briefing, content));
+    return cache.get(new ContentValidationCacheKey(connector, settings, briefing, text));
   }
 
   @Override
@@ -53,11 +52,11 @@ public class SearchmetricsServiceImpl implements SearchmetricsService {
   @Override
   public Briefing getContentBriefing(@NonNull SearchmetricsSettings settings, @NonNull String contentId) {
     Briefing briefing = briefingAssigments.get(contentId);
-    if(briefing != null) {
+    if (briefing != null) {
       //when the API key has changed we want to ensure that the access to the persisted briefing is still valid
       List<BriefingInfo> briefings = getBriefings(settings);
       for (BriefingInfo briefingInfo : briefings) {
-        if(briefing.getId().equals(briefingInfo.getId())) {
+        if (briefing.getId().equals(briefingInfo.getId())) {
           return briefing;
         }
       }
@@ -72,12 +71,14 @@ public class SearchmetricsServiceImpl implements SearchmetricsService {
   }
 
   @Override
-  public void refreshBriefings(@NonNull SearchmetricsSettings settings) {
+  public List<BriefingInfo> refreshBriefings(@NonNull SearchmetricsSettings settings) {
     cache.invalidate(new BriefingInfosCacheKey(connector, settings).dependencyId());
 
     List<BriefingInfo> briefings = getBriefings(settings);
     for (BriefingInfo briefing : briefings) {
       cache.invalidate(new BriefingCacheKey(connector, settings, briefing.getId()).dependencyId());
     }
+
+    return getBriefings(settings);
   }
 }

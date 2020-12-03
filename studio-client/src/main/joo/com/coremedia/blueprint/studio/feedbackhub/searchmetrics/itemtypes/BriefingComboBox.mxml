@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<local:BriefingComboBoxBase
+        xmlns:fx="http://ns.adobe.com/mxml/2009"
+        xmlns:exml="http://www.jangaroo.net/exml/0.8"
+        xmlns="exml:ext.config"
+        xmlns:ui="exml:com.coremedia.ui.config"
+        xmlns:local="com.coremedia.blueprint.studio.feedbackhub.searchmetrics.itemtypes.*"
+        fieldLabel="{resourceManager.getString('com.coremedia.blueprint.studio.feedbackhub.searchmetrics.FeedbackHubSearchmetrics', 'searchmetrics_briefing')}"
+        emptyText="{resourceManager.getString('com.coremedia.blueprint.studio.feedbackhub.searchmetrics.FeedbackHubSearchmetrics', 'searchmetrics_briefing_emptyText')}"
+        labelAlign="left"
+        labelSeparator=":"
+        anyMatch="true"
+        editable="false"
+        valueField="{SearchmetricsPropertyNames.ID}"
+        displayField="{SearchmetricsPropertyNames.STORY}"
+        valueNotFoundText="{resourceManager.getString('com.coremedia.blueprint.studio.feedbackhub.searchmetrics.FeedbackHubSearchmetrics', 'searchmetrics_briefing_emptyText')}">
+  <fx:Metadata>
+    [ResourceBundle('com.coremedia.blueprint.studio.feedbackhub.searchmetrics.FeedbackHubSearchmetrics')]
+  </fx:Metadata>
+  <fx:Script><![CDATA[
+    import com.coremedia.blueprint.studio.feedbackhub.searchmetrics.SearchmetricsPropertyNames;
+
+    public static const xtype:String = "com.coremedia.blueprint.studio.feedbackhub.searchmetrics.config.briefingComboBox";
+
+    private var config:BriefingComboBox;
+
+    public native function BriefingComboBox(config:BriefingComboBox = null);
+    ]]></fx:Script>
+
+  <local:plugins exml:mode="append">
+    <ui:BindListPlugin bindTo="{config.briefingsExpression}"
+                       sortField="{SearchmetricsPropertyNames.STORY}">
+      <ui:fields>
+        <ui:DataField name="{SearchmetricsPropertyNames.ID}"/>
+        <ui:DataField name="{SearchmetricsPropertyNames.STORY}"
+                      sortType="{function(s:String):String{return s?s.toLowerCase():s}}"/>
+      </ui:fields>
+    </ui:BindListPlugin>
+    <ui:BindPropertyPlugin bindTo="{config.briefingInfoExpression}"
+                           transformer="{briefingTransformer}"
+                           reverseTransformer="{briefingReverseTransformer}"
+                           bidirectional="true"
+                           skipIfUndefined="true"
+                           componentEvent="change"/>
+  </local:plugins>
+
+</local:BriefingComboBoxBase>

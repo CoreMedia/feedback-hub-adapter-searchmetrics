@@ -1,7 +1,6 @@
 package com.coremedia.blueprint.searchmetrics;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
-import edu.umd.cs.findbugs.annotations.Nullable;
 
 /**
  *
@@ -15,14 +14,5 @@ public interface SearchmetricsSettings {
   String getApiKey();
 
   @NonNull
-  String getPropertyName();
-
-  @NonNull
   Integer getProjectId();
-
-  @Nullable
-  Boolean getIncludeKeywords();
-
-  @Nullable
-  Boolean getIncludeTaxonomies();
 }

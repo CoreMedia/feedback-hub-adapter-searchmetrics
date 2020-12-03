@@ -35,18 +35,16 @@ public class ContentValidationCacheKey extends CacheKey<ContentValidation> {
   private SearchmetricsConnector connector;
   private SearchmetricsSettings settings;
   private Briefing briefing;
-  private Content content;
   private String text;
 
   public ContentValidationCacheKey(@NonNull SearchmetricsConnector connector,
                                    @NonNull SearchmetricsSettings settings,
                                    @NonNull Briefing briefing,
-                                   @NonNull Content content) {
+                                   @NonNull String text) {
     this.connector = connector;
     this.settings = settings;
     this.briefing = briefing;
-    this.content = content;
-    this.text = getTextContent(content, settings.getPropertyName(), settings.getIncludeKeywords(), settings.getIncludeTaxonomies());
+    this.text = text;
   }
 
   @Override
@@ -58,7 +56,7 @@ public class ContentValidationCacheKey extends CacheKey<ContentValidation> {
       return queryResult.get().getData().getContentValidation();
     }
 
-    LOG.info("Empty detail text for {}, skipped searchmetrics analysis", content.getPath());
+    LOG.info("Empty text for searchmetrics analysis.");
     return new ContentValidation();
   }
 
@@ -86,6 +84,10 @@ public class ContentValidationCacheKey extends CacheKey<ContentValidation> {
 
     Map<String, Object> properties = content.getProperties();
     Set<Map.Entry<String, Object>> entries = properties.entrySet();
+    if(briefing == null) {
+      return "";
+    }
+
     String contentText = briefing.getTitle();
     for (Map.Entry<String, Object> entry : entries) {
       if (entry.getKey().equals(propertyName)) {

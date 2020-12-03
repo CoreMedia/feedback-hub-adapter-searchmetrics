@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
@@ -69,25 +67,7 @@ public class SearchmetricsConnector {
   private <T> Optional<ResponseEntity<T>> makeExchange(@NonNull HttpMethod httpMethod,
                                                        @NonNull HttpEntity<String> requestEntity,
                                                        @NonNull Class<T> responseType) {
-    try {
-      ResponseEntity<T> responseEntity = restTemplate.exchange(URI.create(ENDPOINT), httpMethod, requestEntity, responseType);
-      return Optional.of(responseEntity);
-    } catch (HttpStatusCodeException ex) {
-      LOG.error("Searchmetrics REST request failed: {}", ex.getResponseBodyAsString());
-      HttpStatus statusCode = ex.getStatusCode();
-      if (statusCode == HttpStatus.NOT_FOUND) {
-        LOG.trace("Result from '{}' (response code: {}) will be interpreted as 'no result found'.", ENDPOINT, statusCode);
-        return Optional.empty();
-      }
-
-      if (statusCode == HttpStatus.FORBIDDEN) {
-        LOG.warn("Forbidden, not allowed to make this request to URL " + ENDPOINT + " with request entity " + requestEntity, ex);
-        return Optional.empty();
-      }
-
-      LOG.warn("REST call to '{}' failed. Exception:\n{}", ENDPOINT, ex.getMessage());
-      throw new UnsupportedOperationException(
-              String.format("REST call to '%s' failed. Exception: %s", ENDPOINT, ex.getMessage()), ex);
-    }
+    ResponseEntity<T> responseEntity = restTemplate.exchange(URI.create(ENDPOINT), httpMethod, requestEntity, responseType);
+    return Optional.of(responseEntity);
   }
 }
