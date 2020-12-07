@@ -64,7 +64,6 @@
       <groupId>com.coremedia.ui.sdk</groupId>
       <artifactId>feedback-hub-editor-components</artifactId>
       <type>swc</type>
-      <scope>provided</scope>
     </dependency>
 
     <dependency>

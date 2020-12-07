@@ -42,15 +42,18 @@
   </dependencyManagement>
 
   <dependencies>
+
+    <dependency>
+      <groupId>com.coremedia.blueprint.feedbackhub</groupId>
+      <artifactId>feedback-hub-searchmetrics-lib</artifactId>
+      <version>1-SNAPSHOT</version>
+    </dependency>
+
+
     <dependency>
       <groupId>com.coremedia.cms</groupId>
       <artifactId>coremedia-spring</artifactId>
       <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.coremedia.blueprint</groupId>
-      <artifactId>feedback-hub-searchmetrics-lib</artifactId>
-      <version>1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>com.coremedia.cms</groupId>
