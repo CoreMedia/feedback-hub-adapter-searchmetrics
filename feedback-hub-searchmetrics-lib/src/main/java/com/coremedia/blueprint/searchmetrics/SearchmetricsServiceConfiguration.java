@@ -2,6 +2,7 @@ package com.coremedia.blueprint.searchmetrics;
 
 import com.coremedia.blueprint.searchmetrics.helper.BriefingAssigments;
 import com.coremedia.cache.Cache;
+import com.coremedia.cms.common.plugins.beansforplugins.CommonBeansForPluginsConfiguration;
 import com.coremedia.springframework.xml.ResourceAwareXmlBeanDefinitionReader;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,6 +10,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
@@ -27,6 +29,7 @@ import java.util.Collections;
         },
         reader = ResourceAwareXmlBeanDefinitionReader.class
 )
+@Import({CommonBeansForPluginsConfiguration.class})
 public class SearchmetricsServiceConfiguration {
 
   @Bean

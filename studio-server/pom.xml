@@ -49,6 +49,11 @@
       <version>1-SNAPSHOT</version>
     </dependency>
 
+    <dependency>
+      <groupId>com.coremedia.cms</groupId>
+      <artifactId>common-beansforplugins</artifactId>
+    </dependency>
+
 
     <dependency>
       <groupId>com.coremedia.cms</groupId>
