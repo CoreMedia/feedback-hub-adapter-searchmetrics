@@ -15,6 +15,8 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <cm.studio-server.core.version>1-SNAPSHOT</cm.studio-server.core.version>
     <cm.common.core.version>1-SNAPSHOT</cm.common.core.version>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
   </properties>
 
   <dependencyManagement>
@@ -99,55 +101,18 @@
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-annotations</artifactId>
-      <version>2.10.3</version>
+      <version>2.10.5</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
-      <version>2.10.3</version>
+      <version>2.10.5</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.datatype</groupId>
       <artifactId>jackson-datatype-jsr310</artifactId>
-      <version>2.10.3</version>
+      <version>2.10.5</version>
     </dependency>
   </dependencies>
-
-
-
-
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.1</version>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <version>3.1.2</version>
-        <executions>
-          <execution>
-            <id>feedback-hub-searchmetrics-lib:maven-dependency-plugin:analyze-duplicate</id>
-            <goals>
-              <goal>analyze-duplicate</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>feedback-hub-searchmetrics-lib:maven-dependency-plugin:analyze-only</id>
-            <goals>
-              <goal>analyze-only</goal>
-            </goals>
-            <configuration>
-              <failOnWarning>true</failOnWarning>
-              <ignoreNonCompile>false</ignoreNonCompile>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
 
 </project>
