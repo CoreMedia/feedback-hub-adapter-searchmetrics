@@ -6,7 +6,7 @@
 
 # CoreMedia Feedback Hub Adapter 'Searchmetrics'
 
-The is an integration for the SEO and content marketing platform __Searchmetrics__ (https://www.searchmetrics.com/).
+This is an integration for the SEO and content marketing platform __Searchmetrics__ (https://www.searchmetrics.com/).
 
 The Feedback Hub Adapter 'Searchmetrics' is implemented as a Blueprint extension.
 
