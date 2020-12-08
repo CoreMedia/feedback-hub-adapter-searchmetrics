@@ -54,12 +54,6 @@
       <artifactId>common-beansforplugins</artifactId>
     </dependency>
 
-
-    <dependency>
-      <groupId>com.coremedia.cms</groupId>
-      <artifactId>coremedia-spring</artifactId>
-      <scope>provided</scope>
-    </dependency>
     <dependency>
       <groupId>com.coremedia.cms</groupId>
       <artifactId>cap-unified-api</artifactId>
