@@ -1,6 +1,9 @@
 package com.coremedia.blueprint.studio.feedbackhub.searchmetrics.itemtypes {
 import com.coremedia.blueprint.studio.feedbackhub.searchmetrics.model.Briefing;
 import com.coremedia.blueprint.studio.feedbackhub.searchmetrics.model.BriefingInfo;
+import com.coremedia.cap.common.JobExecutionError;
+import com.coremedia.cap.common.impl.GenericRemoteJob;
+import com.coremedia.cap.common.jobService;
 import com.coremedia.cms.editor.sdk.editorContext;
 import com.coremedia.cms.studio.feedbackhub.components.itempanels.*;
 import com.coremedia.ui.data.ValueExpression;
@@ -69,23 +72,30 @@ public class BriefingSelectorItemPanelBase extends FeedbackItemPanel {
     var info:BriefingInfo = ve.getValue() as BriefingInfo;
     if (info) {
       getBriefingContentExpression().setValue(undefined);
-      var params:Object = {
-        briefingId: info.getBriefingId(),
-        contentId: contentExpression.getValue().getId()
-      };
-
       var siteId:String = editorContext.getSitesService().getPreferredSiteId();
-      if(!siteId) {
+      if (!siteId) {
         siteId = "all"
       }
-      var remoteServiceMethod:RemoteServiceMethod = new RemoteServiceMethod('searchmetrics/' + siteId + '/briefing/' + info.getBriefingId(), 'GET');
-      remoteServiceMethod.request(params, function (response:RemoteServiceMethodResponse):void {
-        if (response.success) {
-          var result:Object = response.getResponseJSON();
-          var briefing:Briefing = new Briefing(response.getResponseJSON());
-          getBriefingContentExpression().setValue(briefing.getContent());
-        }
-      });
+
+      var params:Object = {
+        briefingId: info.getBriefingId(),
+        siteId: siteId
+      };
+
+      var JOB_TYPE:String = "getBriefingDetails";
+      jobService.executeJob(
+              new GenericRemoteJob(JOB_TYPE, params),
+              //on success
+              function (details:Object):void {
+                var result:Object = details;
+                var briefing:Briefing = new Briefing(result);
+                getBriefingContentExpression().setValue(briefing.getContent());
+              },
+              //on error
+              function (error:JobExecutionError):void {
+                trace('[ERROR]', "Error loading briefing details: " + error);
+              }
+      );
     }
   }
 
@@ -105,26 +115,32 @@ public class BriefingSelectorItemPanelBase extends FeedbackItemPanel {
     var btn:Button = b;
     btn.setDisabled(true);
     var siteId:String = editorContext.getSitesService().getPreferredSiteId();
-    if(!siteId) {
+    if (!siteId) {
       siteId = "all"
     }
-    var remoteServiceMethod:RemoteServiceMethod = new RemoteServiceMethod('searchmetrics/' + siteId + '/briefings/refresh', 'GET');
-    remoteServiceMethod.request(null, function (response:RemoteServiceMethodResponse):void {
-      if (response.success) {
-        var infos:Array = response.getResponseJSON().items;
-        var result:Array = [];
-        if (infos !== undefined) {
-          for each(var b:Object in infos) {
-            var briefingInfo:BriefingInfo = new BriefingInfo(b);
-            result.push(briefingInfo);
-          }
-        }
-        getBriefingsExpression().setValue(result);
-        btn.setDisabled(false);
-      }
-    }, function (response:RemoteServiceMethodResponse):void {
-      btn.setDisabled(false);
-    });
+
+    var JOB_TYPE:String = "getBriefings";
+    jobService.executeJob(
+            new GenericRemoteJob(JOB_TYPE, {
+              siteId: siteId
+            }),
+            //on success
+            function (briefings:Object):void {
+              var infos:Array = briefings as Array;
+              var result:Array = [];
+              if (infos !== undefined) {
+                for each(var b:Object in infos) {
+                  var briefingInfo:BriefingInfo = new BriefingInfo(b);
+                  result.push(briefingInfo);
+                }
+              }
+              getBriefingsExpression().setValue(result);
+            },
+            //on error
+            function (error:JobExecutionError):void {
+              trace('[ERROR]', "Error loading briefings: " + error);
+            }
+    );
   }
 
   internal function applyBriefingSelection(b:Button):void {
@@ -143,22 +159,29 @@ public class BriefingSelectorItemPanelBase extends FeedbackItemPanel {
                 if (info) {
                   b.setDisabled(true);
                   queryById(BRIEFING_COMBOBOX_ITEM_ID).setDisabled(true);
+                  var siteId:String = editorContext.getSitesService().getPreferredSiteId();
+                  if (!siteId) {
+                    siteId = "all"
+                  }
 
                   var params:Object = {
                     briefingId: info.getBriefingId(),
-                    contentId: contentExpression.getValue().getId()
+                    contentId: contentExpression.getValue().getId(),
+                    siteId: siteId
                   };
 
-                  var siteId:String = editorContext.getSitesService().getPreferredSiteId();
-                  if(!siteId) {
-                    siteId = "all"
-                  }
-                  var remoteServiceMethod:RemoteServiceMethod = new RemoteServiceMethod('searchmetrics/' + siteId + '/briefingmapping', 'POST');
-                  remoteServiceMethod.request(params, function (response:RemoteServiceMethodResponse):void {
-                    if (response.success) {
-                      reload();
-                    }
-                  });
+                  var JOB_TYPE:String = "assignBriefing";
+                  jobService.executeJob(
+                          new GenericRemoteJob(JOB_TYPE, params),
+                          //on success
+                          function (details:Object):void {
+                            reload();
+                          },
+                          //on error
+                          function (error:JobExecutionError):void {
+                            trace('[ERROR]', "Error assigning briefing: " + error);
+                          }
+                  );
                 }
               }
             });

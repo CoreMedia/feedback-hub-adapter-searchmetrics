@@ -47,12 +47,15 @@
       <artifactId>feedback-hub-searchmetrics-lib</artifactId>
       <version>1-SNAPSHOT</version>
     </dependency>
-
     <dependency>
       <groupId>com.coremedia.cms</groupId>
       <artifactId>common-beansforplugins</artifactId>
     </dependency>
-
+    <dependency>
+      <groupId>com.coremedia.ui</groupId>
+      <artifactId>cap-rest-service</artifactId>
+      <scope>provided</scope>
+    </dependency>
     <dependency>
       <groupId>com.coremedia.cms</groupId>
       <artifactId>cap-unified-api</artifactId>
