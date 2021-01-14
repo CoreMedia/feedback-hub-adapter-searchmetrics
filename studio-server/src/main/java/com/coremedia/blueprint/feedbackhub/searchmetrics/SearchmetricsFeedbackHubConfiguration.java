@@ -6,7 +6,7 @@ import com.coremedia.blueprint.feedbackhub.searchmetrics.jobs.GetBriefingsJobFac
 import com.coremedia.blueprint.searchmetrics.SearchmetricsService;
 import com.coremedia.blueprint.searchmetrics.SearchmetricsServiceConfiguration;
 import com.coremedia.cap.multisite.SitesService;
-import com.coremedia.cms.common.plugins.beansforplugins.CommonBeansForPluginsConfiguration;
+import com.coremedia.cms.common.plugins.beans_for_plugins.CommonBeansForPluginsConfiguration;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

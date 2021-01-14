@@ -2,7 +2,7 @@ package com.coremedia.blueprint.searchmetrics;
 
 import com.coremedia.blueprint.searchmetrics.helper.BriefingAssigments;
 import com.coremedia.cap.common.CapConnection;
-import com.coremedia.cms.common.plugins.beansforplugins.CommonBeansForPluginsConfiguration;
+import com.coremedia.cms.common.plugins.beans_for_plugins.CommonBeansForPluginsConfiguration;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;

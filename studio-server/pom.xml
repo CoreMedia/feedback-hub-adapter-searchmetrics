@@ -49,7 +49,7 @@
     </dependency>
     <dependency>
       <groupId>com.coremedia.cms</groupId>
-      <artifactId>common-beansforplugins</artifactId>
+      <artifactId>common.beans-for-plugins</artifactId>
     </dependency>
     <dependency>
       <groupId>com.coremedia.ui</groupId>
