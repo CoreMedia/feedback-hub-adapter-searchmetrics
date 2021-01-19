@@ -1,9 +1,8 @@
 package com.coremedia.blueprint.feedbackhub.searchmetrics.jobs;
 
+import com.coremedia.blueprint.feedbackhub.searchmetrics.FeedbackSettingsProvider;
 import com.coremedia.blueprint.searchmetrics.SearchmetricsService;
 import com.coremedia.blueprint.searchmetrics.SearchmetricsSettings;
-import com.coremedia.cap.multisite.Site;
-import com.coremedia.cap.multisite.SitesService;
 import com.coremedia.rest.cap.jobs.GenericJobErrorCode;
 import com.coremedia.rest.cap.jobs.Job;
 import com.coremedia.rest.cap.jobs.JobContext;
@@ -18,13 +17,14 @@ public class GetBriefingsJob implements Job {
   private static final Logger LOG = LoggerFactory.getLogger(GetBriefingsJob.class);
 
   private final SearchmetricsService service;
-  private final SitesService sitesService;
+  private final FeedbackSettingsProvider feedbackSettingsProvider;
 
   private String siteId;
+  private String groupId;
 
-  public GetBriefingsJob(SearchmetricsService service, SitesService sitesService) {
+  public GetBriefingsJob(SearchmetricsService service, FeedbackSettingsProvider feedbackSettingsProvider) {
     this.service = service;
-    this.sitesService = sitesService;
+    this.feedbackSettingsProvider = feedbackSettingsProvider;
   }
 
   @JsonProperty("siteId")
@@ -32,11 +32,16 @@ public class GetBriefingsJob implements Job {
     this.siteId = siteId;
   }
 
+  @JsonProperty("groupId")
+  public void setGroupId(String groupId) {
+    this.groupId = groupId;
+  }
+
   @Nullable
   @Override
   public Object call(@NonNull JobContext jobContext) throws JobExecutionException {
     try {
-      SearchmetricsSettings settings = getSettings(siteId);
+      SearchmetricsSettings settings = getSettings();
       return service.refreshBriefings(settings);
     } catch (Exception e) {
       LOG.error("Failed to get briefings for site {}: {}", siteId, e.getMessage());
@@ -44,9 +49,7 @@ public class GetBriefingsJob implements Job {
     }
   }
 
-  private SearchmetricsSettings getSettings(String siteId) {
-    Site site = sitesService.getSite(siteId);
-
-    throw new UnsupportedOperationException("Wait for finished BindingService!");
+  private SearchmetricsSettings getSettings() {
+    return feedbackSettingsProvider.getSettings(groupId, siteId);
   }
 }

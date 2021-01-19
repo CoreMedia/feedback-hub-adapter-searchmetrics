@@ -1,10 +1,9 @@
 package com.coremedia.blueprint.feedbackhub.searchmetrics.jobs;
 
+import com.coremedia.blueprint.feedbackhub.searchmetrics.FeedbackSettingsProvider;
 import com.coremedia.blueprint.searchmetrics.SearchmetricsService;
 import com.coremedia.blueprint.searchmetrics.SearchmetricsSettings;
 import com.coremedia.cap.common.IdHelper;
-import com.coremedia.cap.multisite.Site;
-import com.coremedia.cap.multisite.SitesService;
 import com.coremedia.rest.cap.jobs.GenericJobErrorCode;
 import com.coremedia.rest.cap.jobs.Job;
 import com.coremedia.rest.cap.jobs.JobContext;
@@ -19,20 +18,26 @@ public class AssignBriefingJob implements Job {
   private static final Logger LOG = LoggerFactory.getLogger(AssignBriefingJob.class);
 
   private final SearchmetricsService service;
-  private final SitesService sitesService;
+  private final FeedbackSettingsProvider feedbackSettingsProvider;
 
   private String siteId;
   private String briefingId;
   private String contentId;
+  private String groupId;
 
-  public AssignBriefingJob(SearchmetricsService service, SitesService sitesService) {
+  public AssignBriefingJob(SearchmetricsService service, FeedbackSettingsProvider feedbackSettingsProvider) {
     this.service = service;
-    this.sitesService = sitesService;
+    this.feedbackSettingsProvider = feedbackSettingsProvider;
   }
 
   @JsonProperty("siteId")
   public void setSiteId(String siteId) {
     this.siteId = siteId;
+  }
+
+  @JsonProperty("groupId")
+  public void setGroupId(String groupId) {
+    this.groupId = groupId;
   }
 
   @JsonProperty("briefingId")
@@ -52,7 +57,7 @@ public class AssignBriefingJob implements Job {
       String id = contentId.substring(contentId.lastIndexOf('/') + 1);
       String capId = IdHelper.formatContentId(id);
 
-      SearchmetricsSettings settings = getSettings(siteId);
+      SearchmetricsSettings settings = getSettings();
       service.setContentBriefing(settings, capId, briefingId);
       return true;
     } catch (Exception e) {
@@ -61,9 +66,8 @@ public class AssignBriefingJob implements Job {
     }
   }
 
-  private SearchmetricsSettings getSettings(String siteId) {
-    Site site = sitesService.getSite(siteId);
 
-    throw new UnsupportedOperationException("Wait for finished BindingService!");
+  private SearchmetricsSettings getSettings() {
+    return feedbackSettingsProvider.getSettings(groupId, siteId);
   }
 }

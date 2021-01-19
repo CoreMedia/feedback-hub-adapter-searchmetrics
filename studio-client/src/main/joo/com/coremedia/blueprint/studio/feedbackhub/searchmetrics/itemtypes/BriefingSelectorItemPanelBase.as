@@ -4,13 +4,15 @@ import com.coremedia.blueprint.studio.feedbackhub.searchmetrics.model.BriefingIn
 import com.coremedia.cap.common.JobExecutionError;
 import com.coremedia.cap.common.impl.GenericRemoteJob;
 import com.coremedia.cap.common.jobService;
+import com.coremedia.cap.content.Content;
 import com.coremedia.cms.editor.sdk.editorContext;
 import com.coremedia.cms.studio.feedbackhub.components.itempanels.*;
 import com.coremedia.ui.data.ValueExpression;
 import com.coremedia.ui.data.ValueExpressionFactory;
-import com.coremedia.ui.data.impl.RemoteServiceMethod;
-import com.coremedia.ui.data.impl.RemoteServiceMethodResponse;
 import com.coremedia.ui.messagebox.MessageBoxUtil;
+import com.coremedia.ui.skins.LoadMaskSkin;
+
+import ext.LoadMask;
 
 import ext.button.Button;
 
@@ -23,6 +25,7 @@ public class BriefingSelectorItemPanelBase extends FeedbackItemPanel {
   private var briefingContentExpression:ValueExpression;
 
   private static var lastBriefingInfo:BriefingInfo = null;
+  private var loadMask:LoadMask;
 
   public function BriefingSelectorItemPanelBase(config:BriefingSelectorItemPanel = null) {
     super(config);
@@ -67,19 +70,20 @@ public class BriefingSelectorItemPanelBase extends FeedbackItemPanel {
     return briefingInfoExpression;
   }
 
-
   private function briefingInfoSelectionChanged(ve:ValueExpression):void {
     var info:BriefingInfo = ve.getValue() as BriefingInfo;
     if (info) {
       getBriefingContentExpression().setValue(undefined);
-      var siteId:String = editorContext.getSitesService().getPreferredSiteId();
+      var content:Content = contentExpression.getValue();
+      var siteId:String = editorContext.getSitesService().getSiteIdFor(content);
       if (!siteId) {
         siteId = "all"
       }
 
       var params:Object = {
         briefingId: info.getBriefingId(),
-        siteId: siteId
+        siteId: siteId,
+        groupId: feedbackGroup.name
       };
 
       var JOB_TYPE:String = "getBriefingDetails";
@@ -114,7 +118,8 @@ public class BriefingSelectorItemPanelBase extends FeedbackItemPanel {
   internal function reloadBriefings(b:Button):void {
     var btn:Button = b;
     btn.setDisabled(true);
-    var siteId:String = editorContext.getSitesService().getPreferredSiteId();
+    var content:Content = contentExpression.getValue();
+    var siteId:String = editorContext.getSitesService().getSiteIdFor(content);
     if (!siteId) {
       siteId = "all"
     }
@@ -122,10 +127,15 @@ public class BriefingSelectorItemPanelBase extends FeedbackItemPanel {
     var JOB_TYPE:String = "getBriefings";
     jobService.executeJob(
             new GenericRemoteJob(JOB_TYPE, {
-              siteId: siteId
+              siteId: siteId,
+              groupId: feedbackGroup.name
             }),
             //on success
             function (briefings:Object):void {
+              if (loadMask && !loadMask.destroyed) {
+                loadMask.destroy();
+              }
+              btn.setDisabled(false);
               var infos:Array = briefings as Array;
               var result:Array = [];
               if (infos !== undefined) {
@@ -138,9 +148,23 @@ public class BriefingSelectorItemPanelBase extends FeedbackItemPanel {
             },
             //on error
             function (error:JobExecutionError):void {
+              if (loadMask && !loadMask.destroyed) {
+                loadMask.destroy();
+              }
+              btn.setDisabled(false);
               trace('[ERROR]', "Error loading briefings: " + error);
             }
     );
+
+    if(!loadMask || loadMask.destroyed) {
+      var loadMaskConfig:LoadMask = LoadMask({});
+      loadMaskConfig.ui = LoadMaskSkin.TRANSPARENT.getSkin();
+      loadMaskConfig.msg = '';
+      loadMaskConfig.target = btn;
+      loadMask = new LoadMask(loadMaskConfig);
+    }
+
+    loadMask.show();
   }
 
   internal function applyBriefingSelection(b:Button):void {
@@ -159,7 +183,9 @@ public class BriefingSelectorItemPanelBase extends FeedbackItemPanel {
                 if (info) {
                   b.setDisabled(true);
                   queryById(BRIEFING_COMBOBOX_ITEM_ID).setDisabled(true);
-                  var siteId:String = editorContext.getSitesService().getPreferredSiteId();
+
+                  var content:Content = contentExpression.getValue();
+                  var siteId:String = editorContext.getSitesService().getSiteIdFor(content);
                   if (!siteId) {
                     siteId = "all"
                   }
@@ -167,7 +193,8 @@ public class BriefingSelectorItemPanelBase extends FeedbackItemPanel {
                   var params:Object = {
                     briefingId: info.getBriefingId(),
                     contentId: contentExpression.getValue().getId(),
-                    siteId: siteId
+                    siteId: siteId,
+                    groupId: feedbackGroup.name
                   };
 
                   var JOB_TYPE:String = "assignBriefing";

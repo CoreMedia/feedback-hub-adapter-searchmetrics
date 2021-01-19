@@ -5,8 +5,11 @@ import com.coremedia.blueprint.feedbackhub.searchmetrics.jobs.GetBriefingDetails
 import com.coremedia.blueprint.feedbackhub.searchmetrics.jobs.GetBriefingsJobFactory;
 import com.coremedia.blueprint.searchmetrics.SearchmetricsService;
 import com.coremedia.blueprint.searchmetrics.SearchmetricsServiceConfiguration;
+import com.coremedia.blueprint.searchmetrics.SearchmetricsSettings;
+import com.coremedia.cap.common.CapConnection;
 import com.coremedia.cap.multisite.SitesService;
 import com.coremedia.cms.common.plugins.beans_for_plugins.CommonBeansForPluginsConfiguration;
+import com.coremedia.feedbackhub.FeedbackHubConfigurationProperties;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,17 +26,29 @@ public class SearchmetricsFeedbackHubConfiguration {
   }
 
   @Bean
-  public GetBriefingDetailsJobFactory getBriefingDetailsPageJobFactory(@NonNull SearchmetricsService searchmetricsService, @NonNull SitesService sitesService) {
-    return new GetBriefingDetailsJobFactory(searchmetricsService, sitesService);
+  public FeedbackSettingsProvider searchmetricsFeedbackSettingsProvider(@NonNull SitesService sitesService, @NonNull CapConnection capConnection) {
+    return new FeedbackSettingsProvider(capConnection,
+            sitesService,
+            new FeedbackHubConfigurationProperties.Bindings(),
+            SearchmetricsSettings.class,
+            SearchmetricsFeedbackAdapterFactory.TYPE);
   }
 
   @Bean
-  public GetBriefingsJobFactory getBriefingsPageJobFactory(@NonNull SearchmetricsService searchmetricsService, @NonNull SitesService sitesService) {
-    return new GetBriefingsJobFactory(searchmetricsService, sitesService);
+  public GetBriefingDetailsJobFactory getBriefingDetailsPageJobFactory(@NonNull SearchmetricsService searchmetricsService,
+                                                                       @NonNull FeedbackSettingsProvider searchmetricsFeedbackSettingsProvider) {
+    return new GetBriefingDetailsJobFactory(searchmetricsFeedbackSettingsProvider, searchmetricsService);
   }
 
   @Bean
-  public AssignBriefingJobFactory assignBriefingJobFactory(@NonNull SearchmetricsService searchmetricsService, @NonNull SitesService sitesService) {
-    return new AssignBriefingJobFactory(searchmetricsService, sitesService);
+  public GetBriefingsJobFactory getBriefingsPageJobFactory(@NonNull SearchmetricsService searchmetricsService,
+                                                           @NonNull FeedbackSettingsProvider searchmetricsFeedbackSettingsProvider) {
+    return new GetBriefingsJobFactory(searchmetricsService, searchmetricsFeedbackSettingsProvider);
+  }
+
+  @Bean
+  public AssignBriefingJobFactory assignBriefingJobFactory(@NonNull SearchmetricsService searchmetricsService,
+                                                           @NonNull FeedbackSettingsProvider searchmetricsFeedbackSettingsProvider) {
+    return new AssignBriefingJobFactory(searchmetricsService, searchmetricsFeedbackSettingsProvider);
   }
 }
