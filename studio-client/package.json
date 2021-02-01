@@ -1,7 +1,7 @@
 {
   "studioPlugins": [
     {
-      "mainClass": "com.coremedia.blueprint.studio.feedbackhub.searchmetrics.SearchmetricsFeedbackHubStudioPlugin",
+      "mainClass": "com.coremedia.labs.plugins.feedbackhub.searchmetrics.SearchmetricsFeedbackHubStudioPlugin",
       "name": "FeedbackHub for Searchmetrics"
     }
   ]

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<itemtypes:QuestionPanelBase
+        xmlns:fx="http://ns.adobe.com/mxml/2009"
+        xmlns:exml="http://www.jangaroo.net/exml/0.8"
+        xmlns="exml:ext.config"
+        xmlns:ui="exml:com.coremedia.ui.config"
+        xmlns:itemtypes="com.coremedia.labs.plugins.feedbackhub.searchmetrics.itemtypes.*">
+  <fx:Metadata>
+    [ResourceBundle('com.coremedia.labs.plugins.feedbackhub.searchmetrics.FeedbackHubSearchmetrics')]
+  </fx:Metadata>
+  <fx:Script><![CDATA[
+    import com.coremedia.labs.plugins.feedbackhub.searchmetrics.SearchmetricsPropertyNames;
+
+    public static const xtype:String = "com.coremedia.labs.plugins.feedbackhub.searchmetrics.config.questionPanel";
+
+    private const QUESTION_STYLE:String = "font-size: 14px;padding-top: 4px;color: #006CAE;font-weight: bold;text-transform: uppercase;";
+
+    private var config:QuestionPanel;
+
+    public native function QuestionPanel(config:QuestionPanel = null);
+    ]]></fx:Script>
+
+  <itemtypes:items>
+    <DisplayField width="100" ui="{null}"
+                  style="{QUESTION_STYLE}">
+      <plugins>
+        <ui:BindPropertyPlugin componentProperty="value"
+                               bindTo="{config.bindTo.extendBy(SearchmetricsPropertyNames.GROUP)}"
+                               transformer="{groupTransformer}"/>
+      </plugins>
+    </DisplayField>
+    <DisplayField flex="1">
+      <plugins>
+        <ui:BindPropertyPlugin componentProperty="value"
+                               bindTo="{config.bindTo.extendBy(SearchmetricsPropertyNames.QUESTION)}"/>
+      </plugins>
+    </DisplayField>
+  </itemtypes:items>
+  <itemtypes:layout>
+    <layout_HBox align="stretch"/>
+  </itemtypes:layout>
+</itemtypes:QuestionPanelBase>

@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<local:KeywordListItemPanelBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+                                    xmlns:ui="exml:com.coremedia.ui.config"
+                                    xmlns="exml:ext.config"
+                                    xmlns:local="com.coremedia.labs.plugins.feedbackhub.searchmetrics.itemtypes.*">
+  <fx:Metadata>
+    [ResourceBundle('com.coremedia.cms.studio.feedbackhub.FeedbackHub')]
+    [ResourceBundle('com.coremedia.labs.plugins.feedbackhub.searchmetrics.FeedbackHubSearchmetrics')]
+  </fx:Metadata>
+  <fx:Script><![CDATA[
+    import com.coremedia.ui.data.ValueExpression;
+    import com.coremedia.ui.data.ValueExpressionFactory;
+    import com.coremedia.ui.skins.ButtonSkin;
+
+    public static const xtype:String = "com.coremedia.labs.plugins.feedbackhub.searchmetrics.config.keywordListItemPanel";
+
+    private var config:KeywordListItemPanel;
+
+    public native function KeywordListItemPanel(config:KeywordListItemPanel = null);
+    ]]></fx:Script>
+  <fx:Metadata>
+    [ResourceBundle('com.coremedia.cms.studio.feedbackhub.FeedbackHub')]
+  </fx:Metadata>
+  <local:items>
+    <Container>
+      <items>
+        <ui:IconDisplayField tooltip="{getLabel(config.feedbackItem['help'])}"
+                             iconCls="{resourceManager.getString('com.coremedia.icons.CoreIcons', 'help')}">
+          <ui:plugins>
+            <ui:BindVisibilityPlugin
+                    bindTo="{ValueExpressionFactory.createFromValue(getLabel(config.feedbackItem['help']))}"/>
+          </ui:plugins>
+        </ui:IconDisplayField>
+      </items>
+      <layout>
+        <layout_HBox align="stretch" pack="start"/>
+      </layout>
+    </Container>
+    <Container>
+      <items>
+      </items>
+      <layout>
+        <layout_VBox align="stretch"/>
+      </layout>
+      <plugins>
+        <ui:BindComponentsPlugin valueExpression="{getKeywordsExpression(config)}"
+                                 getKey="{function(value:ValueExpression):String {return value.getValue().getTermId();}}"
+                                 configBeanParameterName="bindTo"
+                                 reuseComponents="{false}">
+          <ui:template>
+            <local:KeywordScoreBar labelPropertyName="keyword" valuePropertyName="current"
+                                       targetValuePropertyName="target"/>
+          </ui:template>
+        </ui:BindComponentsPlugin>
+      </plugins>
+    </Container>
+    <Container>
+      <items>
+        <Button ui="{ButtonSkin.SIMPLE}" text="{getButtonLabel(config)}" handler="{loadMore}">
+          <plugins>
+            <ui:BindVisibilityPlugin bindTo="{getButtonVisibilityExpression(config)}"/>
+          </plugins>
+        </Button>
+      </items>
+      <layout>
+        <layout_HBox align="stretch" pack="start"/>
+      </layout>
+    </Container>
+  </local:items>
+  <local:layout>
+    <layout_VBox align="stretch" pack="start"/>
+  </local:layout>
+</local:KeywordListItemPanelBase>
