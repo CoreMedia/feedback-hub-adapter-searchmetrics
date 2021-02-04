@@ -10,6 +10,7 @@
     <module>studio-server</module>
     <module>studio-client</module>
     <module>feedback-hub-searchmetrics-lib</module>
+    <module>plugin-descriptor</module>
   </modules>
 
   <properties>
