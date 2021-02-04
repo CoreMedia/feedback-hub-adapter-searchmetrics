@@ -1,46 +1,74 @@
-![Status: Active](https://documentation.coremedia.com/badges/badge_status_active.png "Status: Active")
-![For CoreMedia CMS](https://documentation.coremedia.com/badges/badge_coremedia_cms.png "For CoreMedia CMS")
+![CoreMedia Labs Logo](https://documentation.coremedia.com/badges/banner_coremedia_labs_wide.png "CoreMedia Labs Logo")
 
-![CoreMedia Labs Logo](https://documentation.coremedia.com/badges/banner_coremedia_labs_wide.png "CoreMedia Labs Logo Title Text")
+![CoreMedia Content Cloud Version](https://img.shields.io/static/v1?message=2104&label=CoreMedia%20Content%20Cloud&style=for-the-badge&labelColor=666666&color=672779 
+"This badge shows the CoreMedia version this project is compatible with. 
+Please read the versioning section of the project to see what other CoreMedia versions are supported and how to find them."
+)
+![Status](https://img.shields.io/static/v1?message=active&label=Status&style=for-the-badge&labelColor=666666&color=2FAC66 
+"The status badge describes if the project is maintained. Possible values are active and inactive. 
+If a project is inactive it means that the development has been discontinued and won't support future CoreMedia versions."
+)
 
 
-# CoreMedia Feedback Hub Adapter 'Searchmetrics'
+# Searchmetrics Adapter for Feedback Hub 
 
-The is an integration for the SEO and content marketing platform __Searchmetrics__ (https://www.searchmetrics.com/).
+## Overview 
+
+This is an integration for the SEO and content marketing platform __Searchmetrics__ (https://www.searchmetrics.com/).
 
 The Feedback Hub Adapter 'Searchmetrics' is implemented as a Blueprint extension.
 
-Since we usually only work on the latest CoreMedia version, the latest version of the documentation and demo content 
+We usually only work on the latest CoreMedia version, so the latest version of the documentation and demo content 
 may be on the latest version branch.
 
-### Documentation & Tutorial
+## Versioning
 
-https://github.com/CoreMedia/feedback-hub-adapter-searchmetrics/tree/master/documentation
+To find out which CoreMedia versions are supported by this project, 
+please take look at the releases section or on the existing branches. 
+To find the matching version of your CoreMedia system, please checkout the branch 
+with the corresponding name. For example, 
+if your CoreMedia version is 2104.1, checkout the branch 2104.1.
+
+## Project Setup
+
+### Configuration
+
+For Configuration Details see section **[Configuration](Configuration.md)**.
+
+### Screenshots
+
+##### Overall Scoring Overview
+![Searchmetrics](documentation/searchmetrics.png "Searchmetrics Scoring")
+
+##### Keyword Scoring 
+![Searchmetrics](documentation/searchmetrics_keys.png "Searchmetrics Scoring")
+
+##### Content Questions
+![Searchmetrics](documentation/searchmetrics_scores.png "Searchmetrics Scoring")
+
+##### Competitors Overview
+![Searchmetrics](documentation/searchmetrics_comp.png "Searchmetrics Scoring")
 
 ### Issue Tracker
 
 https://github.com/CoreMedia/feedback-hub-adapter-searchmetrics/issues
 
-### Installation
+## CoreMedia Labs
 
-- From the project's root folder, clone this repository as a submodule of the extensions folder. Make sure to use the branch name that matches your workspace version. 
-```
-git submodule add  -b 1907.1 https://github.com/CoreMedia/coremedia-studio-hub modules/extensions/feedback-hub-adapter-searchmetrics
-```
+Welcome to [CoreMedia Labs](https://blog.coremedia.com/labs/)! This repository
+is part of a platform for developers who want to have a look under the hood or
+get some hands-on understanding of the vast and compelling capabilities of
+CoreMedia. Whatever your experience level with CoreMedia is, we've got something
+for you.
 
-- Use the extension tool in the root folder of the project to link the modules to your workspace.
- ```
-mvn -f workspace-configuration/extensions com.coremedia.maven:extensions-maven-plugin:LATEST:sync -Denable=feedback-hub-adapter-searchmetrics
-```
+Each project in our Labs platform is an extra feature to be used with CoreMedia,
+including extensions, tools and 3rd party integrations. We provide some test
+data and explanatory videos for non-customers and for insiders there is
+open-source code and instructions on integrating the feature into your
+CoreMedia workspace. 
 
-
-For the IDEA import:
-- Ignore folder ".remote-package"
-- Disable "Settings > Compiler > Clear output directory on rebuild" to ensure the Studio development roundtrip
-
-### Open Issues
-
-Please check the issues section of the project:
-https://github.com/CoreMedia/feedback-hub-adapter-searchmetrics/issues
-
-
+The code we provide is meant to be example code, illustrating a set of features
+that could be used to enhance your CoreMedia experience. We'd love to hear your
+feedback on use-cases and further developments! If you're having problems with
+our code, please refer to our issues section. If you already have a solution to 
+an issue, we love to review and integrate your pull requests. 

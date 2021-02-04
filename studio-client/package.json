@@ -1,0 +1,8 @@
+{
+  "studioPlugins": [
+    {
+      "mainClass": "com.coremedia.labs.plugins.feedbackhub.searchmetrics.SearchmetricsFeedbackHubStudioPlugin",
+      "name": "FeedbackHub for Searchmetrics"
+    }
+  ]
+}
