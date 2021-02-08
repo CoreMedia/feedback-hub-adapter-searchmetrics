@@ -24,6 +24,7 @@ please visit https://developers.searchmetrics.com/ for more detailed instruction
       <StringProperty Name="factoryId">searchmetrics</StringProperty>
       <StringProperty Name="groupId">searchmetrics</StringProperty>
       <StringProperty Name="contentType">CMArticle</StringProperty>
+      <StringProperty Name="reloadMode">auto</StringProperty>
       <BooleanProperty Name="enabled">true</BooleanProperty>
       <StructProperty Name="settings">
         <Struct>
