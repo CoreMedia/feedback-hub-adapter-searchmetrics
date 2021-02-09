@@ -23,11 +23,19 @@ public class BriefingSelectorItemPanelBase extends FeedbackItemPanel {
   private var briefingInfoExpression:ValueExpression;
   private var briefingContentExpression:ValueExpression;
 
-  private static var lastBriefingInfo:BriefingInfo = null;
   private var loadMask:LoadMask;
 
   public function BriefingSelectorItemPanelBase(config:BriefingSelectorItemPanel = null) {
     super(config);
+    addListener('afterlayout', checkBriefing);
+  }
+
+  private function checkBriefing():void {
+    removeListener('afterlayout', checkBriefing);
+    var briefingId:String = feedbackItem['briefingId'];
+    if(briefingId) {
+      getFeedbackTabPanel().setActiveTab(1);
+    }
   }
 
   override protected function afterRender():void {
@@ -105,11 +113,6 @@ public class BriefingSelectorItemPanelBase extends FeedbackItemPanel {
   internal function getBriefingContentExpression():ValueExpression {
     if (!briefingContentExpression) {
       briefingContentExpression = ValueExpressionFactory.createFromValue(undefined);
-      briefingContentExpression.addChangeListener(function ():void {
-        window.setTimeout(function ():void { //dunno
-          getFeedbackItemsPanel().updateLayout();
-        }, 100);
-      });
     }
     return briefingContentExpression;
   }
@@ -168,17 +171,12 @@ public class BriefingSelectorItemPanelBase extends FeedbackItemPanel {
 
   internal function applyBriefingSelection(b:Button):void {
     var info:BriefingInfo = getBriefingInfoExpression().getValue() as BriefingInfo;
-    if (lastBriefingInfo !== null && info !== null && lastBriefingInfo.getBriefingId() === info.getBriefingId()) {
-      return;
-    }
 
     var title:String = resourceManager.getString('com.coremedia.labs.plugins.feedbackhub.searchmetrics.FeedbackHubSearchmetrics', 'searchmetrics_briefing_apply_title');
     var msg:String = resourceManager.getString('com.coremedia.labs.plugins.feedbackhub.searchmetrics.FeedbackHubSearchmetrics', 'searchmetrics_briefing_apply_text');
     MessageBoxUtil.showConfirmation(title, msg, resourceManager.getString('com.coremedia.labs.plugins.feedbackhub.searchmetrics.FeedbackHubSearchmetrics', 'searchmetrics_briefing_apply_button'),
             function (btn:*):void {
               if (btn === 'ok') {
-                lastBriefingInfo = info;
-
                 if (info) {
                   b.setDisabled(true);
                   queryById(BRIEFING_COMBOBOX_ITEM_ID).setDisabled(true);
