@@ -84,7 +84,7 @@ public class SearchmetricsFeedbackAdapter implements TextFeedbackHubAdapter {
 
       if (briefing != null) {
         items.add(LabelFeedbackItem.builder()
-                .withCollection(FeedbackItemDefaultCollections.HEADER)
+                .withCollection(FeedbackItemDefaultCollections.header.name())
                 .withLabel("searchmetrics_selected_briefing", briefing.getName())
                 .build());
 
@@ -172,7 +172,7 @@ public class SearchmetricsFeedbackAdapter implements TextFeedbackHubAdapter {
       else {
         //add empty default tabs
         items.add(LabelFeedbackItem.builder()
-                .withCollection(FeedbackItemDefaultCollections.HEADER)
+                .withCollection(FeedbackItemDefaultCollections.header.name())
                 .withLabel("searchmetrics_briefing_emptyText")
                 .build());
         items.add(FeedbackItemFactory.createEmptyItem(SearchmetricsFeedbackCollections.GENERAL));
