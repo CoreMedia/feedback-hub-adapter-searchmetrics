@@ -1,6 +1,7 @@
 package com.coremedia.labs.plugins.feedbackhub.searchmetrics.itemtypes {
 import com.coremedia.cms.studio.feedbackhub.components.itempanels.FeedbackItemPanel;
 import com.coremedia.labs.plugins.feedbackhub.searchmetrics.model.Briefing;
+import com.coremedia.labs.plugins.feedbackhub.searchmetrics.model.Briefing;
 import com.coremedia.labs.plugins.feedbackhub.searchmetrics.model.Question;
 import com.coremedia.ui.data.ValueExpression;
 import com.coremedia.ui.data.ValueExpressionFactory;
@@ -55,7 +56,7 @@ public class QuestionsListItemPanelBase extends FeedbackItemPanel {
   private function getGroupName(q:Question):String {
     var name:String = q.getGroup();
     if (name === null || name === undefined || name.length === 0) {
-      var briefing:Briefing = feedbackItem['briefing'].getValue();
+      var briefing:Briefing = new Briefing(feedbackItem['briefing']);
       name = resourceManager.getString('com.coremedia.labs.plugins.feedbackhub.searchmetrics.FeedbackHubSearchmetrics', 'searchmetrics_other_questions_' + briefing.getLanguage());
       if (!name) {
         name = resourceManager.getString('com.coremedia.labs.plugins.feedbackhub.searchmetrics.FeedbackHubSearchmetrics', 'searchmetrics_other_questions');
