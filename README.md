@@ -1,6 +1,6 @@
 ![CoreMedia Labs Logo](https://documentation.coremedia.com/badges/banner_coremedia_labs_wide.png "CoreMedia Labs Logo")
 
-![CoreMedia Content Cloud Version](https://img.shields.io/static/v1?message=2104&label=CoreMedia%20Content%20Cloud&style=for-the-badge&labelColor=666666&color=672779 
+![CoreMedia Content Cloud Version](https://img.shields.io/static/v1?message=2107&label=CoreMedia%20Content%20Cloud&style=for-the-badge&labelColor=666666&color=672779 
 "This badge shows the CoreMedia version this project is compatible with. 
 Please read the versioning section of the project to see what other CoreMedia versions are supported and how to find them."
 )
@@ -24,10 +24,7 @@ may be on the latest version branch.
 ## Versioning
 
 To find out which CoreMedia versions are supported by this project, 
-please take look at the releases section or on the existing branches. 
-To find the matching version of your CoreMedia system, please checkout the branch 
-with the corresponding name. For example, 
-if your CoreMedia version is 2104.1, checkout the branch 2104.1.
+please take look at the releases section or on the existing branches.
 
 ## Project Setup
 

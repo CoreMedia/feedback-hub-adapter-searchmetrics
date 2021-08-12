@@ -12,8 +12,8 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <jangaroo.version>4.0.77</jangaroo.version>
-    <cms.version>2104.1</cms.version>
+    <jangaroo.version>4.1.0</jangaroo.version>
+    <cms.version>2107.1</cms.version>
     <!-- mvn jangaroo:run configuration: -->
     <!-- Proxy everything to a running Studio (except the locally developed package) -->
     <jooProxyPathSpec>/*</jooProxyPathSpec>
@@ -69,6 +69,28 @@
       <type>swc</type>
       <scope>provided</scope>
     </dependency>
+
+    <dependency>
+      <groupId>com.coremedia.ui.sdk</groupId>
+      <artifactId>cap-rest-client-impl</artifactId>
+      <type>swc</type>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.coremedia.ui.toolkit</groupId>
+      <artifactId>core-icons</artifactId>
+      <type>swc</type>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>net.jangaroo</groupId>
+      <artifactId>jangaroo-runtime</artifactId>
+      <type>swc</type>
+      <scope>provided</scope>
+    </dependency>
+
   </dependencies>
 
   <build>
