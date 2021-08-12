@@ -91,6 +91,27 @@
       <scope>provided</scope>
     </dependency>
 
+    <dependency>
+      <groupId>com.coremedia.ui.toolkit</groupId>
+      <artifactId>client-core-impl</artifactId>
+      <type>swc</type>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.coremedia.ui.toolkit</groupId>
+      <artifactId>client-core</artifactId>
+      <type>swc</type>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.coremedia.ui.sdk</groupId>
+      <artifactId>cap-rest-client</artifactId>
+      <type>swc</type>
+      <scope>provided</scope>
+    </dependency>
+
   </dependencies>
 
   <build>
