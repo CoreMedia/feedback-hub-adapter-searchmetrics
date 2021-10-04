@@ -1,33 +1,42 @@
 package com.coremedia.labs.plugins.searchmetrics;
 
-import com.coremedia.labs.plugins.searchmetrics.caching.BriefingCacheKey;
-import com.coremedia.labs.plugins.searchmetrics.caching.BriefingInfosCacheKey;
-import com.coremedia.labs.plugins.searchmetrics.caching.ContentValidationCacheKey;
-import com.coremedia.labs.plugins.searchmetrics.documents.Briefing;
-import com.coremedia.labs.plugins.searchmetrics.documents.BriefingInfo;
-import com.coremedia.labs.plugins.searchmetrics.documents.ContentValidation;
-import com.coremedia.labs.plugins.searchmetrics.helper.BriefingAssigments;
 import com.coremedia.cache.Cache;
+import com.coremedia.labs.plugins.searchmetrics.caching.BriefingCacheKey;
+import com.coremedia.labs.plugins.searchmetrics.caching.BriefingsCacheKey;
+import com.coremedia.labs.plugins.searchmetrics.documents.Briefing;
+import com.coremedia.labs.plugins.searchmetrics.documents.ContentUpdate;
+import com.coremedia.labs.plugins.searchmetrics.helper.BriefingAssigments;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 public class SearchmetricsServiceImpl implements SearchmetricsService {
+  private static final Logger LOG = LoggerFactory.getLogger(SearchmetricsServiceImpl.class);
+
   private SearchmetricsConnector connector;
   private BriefingAssigments briefingAssigments;
   private Cache cache;
+  private ObjectMapper objectMapper;
 
 
   public SearchmetricsServiceImpl(Cache cache, SearchmetricsConnector connector, BriefingAssigments briefingAssigments) {
     this.cache = cache;
     this.connector = connector;
     this.briefingAssigments = briefingAssigments;
+
+    this.objectMapper = new ObjectMapper();
   }
 
   @NonNull
-  public List<BriefingInfo> getBriefings(@NonNull SearchmetricsSettings settings) {
-    return cache.get(new BriefingInfosCacheKey(connector, settings));
+  public List<Briefing> getBriefings(@NonNull SearchmetricsSettings settings, boolean invalidate) {
+    if(invalidate) {
+      cache.invalidate(new BriefingsCacheKey(connector, settings).dependencyId());
+    }
+    return cache.get(new BriefingsCacheKey(connector, settings));
   }
 
   @NonNull
@@ -37,9 +46,24 @@ public class SearchmetricsServiceImpl implements SearchmetricsService {
 
   @NonNull
   @Override
-  public ContentValidation validate(@NonNull SearchmetricsSettings settings, @NonNull String briefingId, @NonNull String text) {
+  public Briefing updateBriefing(@NonNull SearchmetricsSettings settings, @NonNull String briefingId, @NonNull String text) {
     Briefing briefing = getBriefing(settings, briefingId);
-    return cache.get(new ContentValidationCacheKey(connector, settings, briefing, text));
+
+    ContentUpdate update = new ContentUpdate();
+    update.setContent(text);
+    update.setTitle(briefing.getBriefName());
+    update.setMetaTitle("Update from CoreMedia Studio");
+    update.setMetaDescription("");
+
+    try {
+      String valueAsString = objectMapper.writeValueAsString(update);
+      connector.postResource(settings, "brief/" + briefingId + "/content-versions", valueAsString, String.class);
+    }
+    catch (Exception e) {
+      LOG.error("Failed to update content: " + e.getMessage(), e);
+    }
+
+    return refreshBriefing(settings, briefingId);
   }
 
   @Override
@@ -54,9 +78,9 @@ public class SearchmetricsServiceImpl implements SearchmetricsService {
     Briefing briefing = briefingAssigments.get(contentId);
     if (briefing != null) {
       //when the API key has changed we want to ensure that the access to the persisted briefing is still valid
-      List<BriefingInfo> briefings = getBriefings(settings);
-      for (BriefingInfo briefingInfo : briefings) {
-        if (briefing.getId().equals(briefingInfo.getId())) {
+      List<Briefing> briefings = getBriefings(settings, false);
+      for (Briefing briefingInfo : briefings) {
+        if (briefing.getBriefId().equals(briefingInfo.getBriefId())) {
           return briefing;
         }
       }
@@ -66,19 +90,8 @@ public class SearchmetricsServiceImpl implements SearchmetricsService {
   }
 
   @Override
-  public void refreshBriefing(@NonNull SearchmetricsSettings settings, @NonNull String briefingId) {
+  public Briefing refreshBriefing(@NonNull SearchmetricsSettings settings, @NonNull String briefingId) {
     cache.invalidate(new BriefingCacheKey(connector, settings, briefingId).dependencyId());
-  }
-
-  @Override
-  public List<BriefingInfo> refreshBriefings(@NonNull SearchmetricsSettings settings) {
-    cache.invalidate(new BriefingInfosCacheKey(connector, settings).dependencyId());
-
-    List<BriefingInfo> briefings = getBriefings(settings);
-    for (BriefingInfo briefing : briefings) {
-      cache.invalidate(new BriefingCacheKey(connector, settings, briefing.getId()).dependencyId());
-    }
-
-    return getBriefings(settings);
+    return getBriefing(settings, briefingId);
   }
 }

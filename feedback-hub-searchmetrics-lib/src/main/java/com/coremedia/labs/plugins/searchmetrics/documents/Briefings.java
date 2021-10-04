@@ -6,13 +6,13 @@ import java.util.List;
  *
  */
 public class Briefings {
-  private List<BriefingInfo> briefings;
+  private List<Briefing> data;
 
-  public List<BriefingInfo> getBriefings() {
-    return briefings;
+  public List<Briefing> getData() {
+    return data;
   }
 
-  public void setBriefings(List<BriefingInfo> briefings) {
-    this.briefings = briefings;
+  public void setData(List<Briefing> data) {
+    this.data = data;
   }
 }

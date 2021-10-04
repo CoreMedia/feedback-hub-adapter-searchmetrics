@@ -6,30 +6,51 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *
  */
 public class Question {
-  private String id;
-  private String question;
+  @JsonProperty("question_id")
+  private String questionId;
+
+  @JsonProperty("question_text")
+  private String questionText;
+
+  @JsonProperty("is_selected")
+  private boolean isSelected;
+
+  @JsonProperty("question_type")
+  private String questionType;
 
   @JsonProperty("local_rank")
   private int localRank;
-  @JsonProperty("global_rank")
-  private int globalRank;
 
-  private String group;
-
-  public String getId() {
-    return id;
+  public String getQuestionId() {
+    return questionId;
   }
 
-  public void setId(String id) {
-    this.id = id;
+  public void setQuestionId(String questionId) {
+    this.questionId = questionId;
   }
 
-  public String getQuestion() {
-    return question;
+  public String getQuestionText() {
+    return questionText;
   }
 
-  public void setQuestion(String question) {
-    this.question = question;
+  public void setQuestionText(String questionText) {
+    this.questionText = questionText;
+  }
+
+  public boolean isSelected() {
+    return isSelected;
+  }
+
+  public void setSelected(boolean selected) {
+    isSelected = selected;
+  }
+
+  public String getQuestionType() {
+    return questionType;
+  }
+
+  public void setQuestionType(String questionType) {
+    this.questionType = questionType;
   }
 
   public int getLocalRank() {
@@ -38,21 +59,5 @@ public class Question {
 
   public void setLocalRank(int localRank) {
     this.localRank = localRank;
-  }
-
-  public int getGlobalRank() {
-    return globalRank;
-  }
-
-  public void setGlobalRank(int globalRank) {
-    this.globalRank = globalRank;
-  }
-
-  public String getGroup() {
-    return group;
-  }
-
-  public void setGroup(String group) {
-    this.group = group;
   }
 }

@@ -2,18 +2,31 @@ package com.coremedia.labs.plugins.searchmetrics.documents;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
 /**
  *
  */
-public class KeywordsCoverage {
+public class Keyword {
+  private String id;
   private String keyword;
-  private String keywordType;
-
+  private String category;
   @JsonProperty("current_frequency")
   private int currentFrequency;
 
   @JsonProperty("target_frequency")
   private int targetFrequency;
+
+  @JsonProperty("example_phrases")
+  private List<String> examplePhrases;
+
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
 
   public String getKeyword() {
     return keyword;
@@ -23,12 +36,12 @@ public class KeywordsCoverage {
     this.keyword = keyword;
   }
 
-  public String getKeywordType() {
-    return keywordType;
+  public String getCategory() {
+    return category;
   }
 
-  public void setKeywordType(String keywordType) {
-    this.keywordType = keywordType;
+  public void setCategory(String category) {
+    this.category = category;
   }
 
   public int getCurrentFrequency() {
@@ -45,5 +58,13 @@ public class KeywordsCoverage {
 
   public void setTargetFrequency(int targetFrequency) {
     this.targetFrequency = targetFrequency;
+  }
+
+  public List<String> getExamplePhrases() {
+    return examplePhrases;
+  }
+
+  public void setExamplePhrases(List<String> examplePhrases) {
+    this.examplePhrases = examplePhrases;
   }
 }

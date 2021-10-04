@@ -1,12 +1,10 @@
 package com.coremedia.labs.plugins.searchmetrics.caching;
 
+import com.coremedia.cache.Cache;
+import com.coremedia.cache.CacheKey;
 import com.coremedia.labs.plugins.searchmetrics.SearchmetricsConnector;
 import com.coremedia.labs.plugins.searchmetrics.SearchmetricsSettings;
 import com.coremedia.labs.plugins.searchmetrics.documents.Briefing;
-import com.coremedia.labs.plugins.searchmetrics.documents.QueryResult;
-import com.coremedia.labs.plugins.searchmetrics.queries.BriefingQuery;
-import com.coremedia.cache.Cache;
-import com.coremedia.cache.CacheKey;
 import edu.umd.cs.findbugs.annotations.NonNull;
 
 import java.util.Optional;
@@ -34,14 +32,12 @@ public class BriefingCacheKey extends CacheKey<Briefing> {
   public Briefing evaluate(Cache cache) {
     Cache.cacheFor(CACHE_DURATION_MINUTES, TimeUnit.MINUTES);
 
-    BriefingQuery query = new BriefingQuery(briefingId);
-    Optional<QueryResult> queryResult = connector.postResource(settings, query.toString(), QueryResult.class);
-
-    return queryResult.map(queryResult1 -> queryResult1.getData().getContentExperience().getBriefing()).orElse(null);
+    Optional<Briefing> queryResult = connector.getResource(settings, "briefs/" + briefingId, Briefing.class);
+    return queryResult.orElse(null);
   }
 
   public String dependencyId() {
-    return this.settings.getProjectId() + ":" + this.briefingId;
+    return this.settings.getClientId() + ":" + this.briefingId;
   }
 
   @Override

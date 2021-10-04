@@ -42,7 +42,7 @@ public class GetBriefingsJob implements Job {
   public Object call(@NonNull JobContext jobContext) throws JobExecutionException {
     try {
       SearchmetricsSettings settings = getSettings();
-      return service.refreshBriefings(settings);
+      return service.getBriefings(settings, true);
     } catch (Exception e) {
       LOG.error("Failed to get briefings for site {}: {}", siteId, e.getMessage());
       throw new JobExecutionException(GenericJobErrorCode.FAILED);

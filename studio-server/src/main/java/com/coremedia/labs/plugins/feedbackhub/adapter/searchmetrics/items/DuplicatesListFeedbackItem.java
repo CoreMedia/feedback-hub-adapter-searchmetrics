@@ -1,6 +1,6 @@
 package com.coremedia.labs.plugins.feedbackhub.adapter.searchmetrics.items;
 
-import com.coremedia.labs.plugins.searchmetrics.documents.DuplicateCheckResult;
+import com.coremedia.labs.plugins.searchmetrics.documents.DuplicationInformation;
 import com.coremedia.feedbackhub.items.FeedbackItem;
 
 import java.util.List;
@@ -13,14 +13,14 @@ public class DuplicatesListFeedbackItem implements FeedbackItem {
   private final String title;
   private final String help;
   private final String briefingId;
-  private final List<DuplicateCheckResult> duplicationCheckResults;
+  private final List<DuplicationInformation> duplicationInformation;
 
-  public DuplicatesListFeedbackItem(String collection, String title, String help, String briefingId, List<DuplicateCheckResult> duplicationCheckResults) {
+  public DuplicatesListFeedbackItem(String collection, String title, String help, String briefingId, List<DuplicationInformation> duplicationInformation) {
     this.collection = collection;
     this.title = title;
     this.help = help;
     this.briefingId = briefingId;
-    this.duplicationCheckResults = duplicationCheckResults;
+    this.duplicationInformation = duplicationInformation;
   }
 
   public String getBriefingId() {
@@ -35,8 +35,8 @@ public class DuplicatesListFeedbackItem implements FeedbackItem {
     return help;
   }
 
-  public List<DuplicateCheckResult> getDuplicationCheckResults() {
-    return duplicationCheckResults;
+  public List<DuplicationInformation> getDuplicationInformation() {
+    return duplicationInformation;
   }
 
   @Override

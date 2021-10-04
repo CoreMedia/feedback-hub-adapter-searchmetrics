@@ -8,11 +8,11 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 public interface SearchmetricsSettings {
 
   @NonNull
-  String getSharedSecret();
+  String getClientId();
 
   @NonNull
-  String getApiKey();
+  String getClientSecret();
 
   @NonNull
-  Integer getProjectId();
+  String getRedirectUrl();
 }

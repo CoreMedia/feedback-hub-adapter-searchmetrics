@@ -1,7 +1,7 @@
 package com.coremedia.labs.plugins.feedbackhub.adapter.searchmetrics.items;
 
-import com.coremedia.labs.plugins.searchmetrics.documents.BriefingInfo;
 import com.coremedia.feedbackhub.items.FeedbackItem;
+import com.coremedia.labs.plugins.searchmetrics.documents.Briefing;
 
 import java.util.List;
 
@@ -11,11 +11,11 @@ import java.util.List;
 public class BriefingSelectorFeedbackItem implements FeedbackItem {
 
   private final String collection;
-  private List<BriefingInfo> briefingInfos;
+  private List<Briefing> briefingInfos;
   private final String briefingId;
   private final String briefingText;
 
-  public BriefingSelectorFeedbackItem(String collection, List<BriefingInfo> briefingInfos, String briefingId, String briefingText) {
+  public BriefingSelectorFeedbackItem(String collection, List<Briefing> briefingInfos, String briefingId, String briefingText) {
     this.collection = collection;
     this.briefingInfos = briefingInfos;
     this.briefingId = briefingId;
@@ -32,7 +32,7 @@ public class BriefingSelectorFeedbackItem implements FeedbackItem {
     return collection;
   }
 
-  public List<BriefingInfo> getBriefingInfos() {
+  public List<Briefing> getBriefingInfos() {
     return briefingInfos;
   }
 

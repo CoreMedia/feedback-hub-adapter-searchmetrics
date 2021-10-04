@@ -13,6 +13,11 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.security.oauth2.client.AuthorizedClientServiceOAuth2AuthorizedClientManager;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientProvider;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientProviderBuilder;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
@@ -35,8 +40,30 @@ public class SearchmetricsServiceConfiguration {
   }
 
   @Bean
-  public SearchmetricsConnector searchmetricsConnector(RestTemplate searchmetricsRestTemplate) {
-    return new SearchmetricsConnector(searchmetricsRestTemplate);
+  public SearchmetricsConnector searchmetricsConnector(RestTemplate searchmetricsRestTemplate,
+                                                       AuthorizedClientServiceOAuth2AuthorizedClientManager authorizedClientServiceAndManager) {
+    return new SearchmetricsConnector(searchmetricsRestTemplate, authorizedClientServiceAndManager);
+  }
+
+
+  // Create the authorized client manager and service manager using the
+  // beans created and configured above
+  @Bean
+  public AuthorizedClientServiceOAuth2AuthorizedClientManager authorizedClientServiceAndManager (
+          ClientRegistrationRepository clientRegistrationRepository,
+          OAuth2AuthorizedClientService authorizedClientService) {
+
+    OAuth2AuthorizedClientProvider authorizedClientProvider =
+            OAuth2AuthorizedClientProviderBuilder.builder()
+                    .clientCredentials()
+                    .build();
+
+    AuthorizedClientServiceOAuth2AuthorizedClientManager authorizedClientManager =
+            new AuthorizedClientServiceOAuth2AuthorizedClientManager(
+                    clientRegistrationRepository, authorizedClientService);
+    authorizedClientManager.setAuthorizedClientProvider(authorizedClientProvider);
+
+    return authorizedClientManager;
   }
 
   @Bean

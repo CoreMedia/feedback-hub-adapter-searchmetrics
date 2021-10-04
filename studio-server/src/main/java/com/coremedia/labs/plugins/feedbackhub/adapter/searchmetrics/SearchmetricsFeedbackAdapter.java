@@ -1,15 +1,5 @@
 package com.coremedia.labs.plugins.feedbackhub.adapter.searchmetrics;
 
-import com.coremedia.labs.plugins.feedbackhub.adapter.searchmetrics.items.BriefingSelectorFeedbackItem;
-import com.coremedia.labs.plugins.feedbackhub.adapter.searchmetrics.items.DuplicatesListFeedbackItem;
-import com.coremedia.labs.plugins.feedbackhub.adapter.searchmetrics.items.KeywordListFeedbackItem;
-import com.coremedia.labs.plugins.feedbackhub.adapter.searchmetrics.items.QuestionsListFeedbackItem;
-import com.coremedia.labs.plugins.searchmetrics.SearchmetricsException;
-import com.coremedia.labs.plugins.searchmetrics.SearchmetricsService;
-import com.coremedia.labs.plugins.searchmetrics.SearchmetricsSettings;
-import com.coremedia.labs.plugins.searchmetrics.documents.Briefing;
-import com.coremedia.labs.plugins.searchmetrics.documents.BriefingInfo;
-import com.coremedia.labs.plugins.searchmetrics.documents.ContentValidation;
 import com.coremedia.cap.content.Content;
 import com.coremedia.feedbackhub.FeedbackItemDefaultCollections;
 import com.coremedia.feedbackhub.adapter.FeedbackContext;
@@ -21,6 +11,15 @@ import com.coremedia.feedbackhub.items.LabelFeedbackItem;
 import com.coremedia.feedbackhub.items.PercentageBarFeedbackItem;
 import com.coremedia.feedbackhub.items.RatingBarFeedbackItem;
 import com.coremedia.feedbackhub.items.ScoreBarFeedbackItem;
+import com.coremedia.labs.plugins.feedbackhub.adapter.searchmetrics.items.BriefingSelectorFeedbackItem;
+import com.coremedia.labs.plugins.feedbackhub.adapter.searchmetrics.items.DuplicatesListFeedbackItem;
+import com.coremedia.labs.plugins.feedbackhub.adapter.searchmetrics.items.KeywordListFeedbackItem;
+import com.coremedia.labs.plugins.feedbackhub.adapter.searchmetrics.items.QuestionsListFeedbackItem;
+import com.coremedia.labs.plugins.searchmetrics.SearchmetricsException;
+import com.coremedia.labs.plugins.searchmetrics.SearchmetricsService;
+import com.coremedia.labs.plugins.searchmetrics.SearchmetricsSettings;
+import com.coremedia.labs.plugins.searchmetrics.documents.Briefing;
+import com.coremedia.labs.plugins.searchmetrics.documents.Keyword;
 import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
@@ -57,21 +56,17 @@ public class SearchmetricsFeedbackAdapter implements TextFeedbackHubAdapter {
     try {
       Content content = (Content) context.getEntity();
       String contentId = content.getId();
-      List<BriefingInfo> briefings = searchmetricsService.getBriefings(settings);
-      ContentValidation contentValidation = null;
+      List<Briefing> briefings = searchmetricsService.getBriefings(settings, false);
 
       String text = textProperties.values().stream().filter(p -> !StringUtils.isEmpty(p)).collect(Collectors.joining(" "));
-
-      Briefing briefing = searchmetricsService.getContentBriefing(settings, contentId);
       String briefingId = null;
       String briefingContent = null;
+
+      Briefing briefing = searchmetricsService.getContentBriefing(settings, contentId);
       if (briefing != null) {
-        briefingId = briefing.getId();
-        briefingContent = briefing.getContent();
-        contentValidation = searchmetricsService.validate(settings, briefing.getId(), text);
-        if (contentValidation.getDuplicationCheckResults() != null) {
-          contentValidation.getDuplicationCheckResults().sort((o2, o1) -> o1.getDuplicationScore() - o2.getDuplicationScore());
-        }
+        briefingId = briefing.getBriefId();
+        briefingContent = briefing.getLatestContentVersion().getContent();
+        briefing = searchmetricsService.updateBriefing(settings, briefing.getBriefId(), text);
       }
       else {
         LOG.info("No briefing assigment for content {}, skipping Searchmetrics validation.", contentId);
@@ -79,21 +74,21 @@ public class SearchmetricsFeedbackAdapter implements TextFeedbackHubAdapter {
 
 
       List<FeedbackItem> items = new ArrayList<>();
-      items.add(FeedbackItemFactory.createFeedbackLink("https://app.searchmetrics.com/suite/de/content-experience/content-creation/brief-creator/topicgraph/"));
+      items.add(FeedbackItemFactory.createFeedbackLink("https://app.searchmetrics.com/"));
       items.add(new BriefingSelectorFeedbackItem(SearchmetricsFeedbackCollections.GENERAL, briefings, briefingId, briefingContent));
 
       if (briefing != null) {
         items.add(LabelFeedbackItem.builder()
                 .withCollection(FeedbackItemDefaultCollections.header.name())
-                .withLabel("searchmetrics_selected_briefing", briefing.getName())
+                .withLabel("searchmetrics_selected_briefing", briefing.getBriefName())
                 .build());
 
         //score gauge
-        int goal = briefing.getInfos().getContentScoreGoal();
+        int goal = briefing.getTargetContentScore();
 
         GaugeFeedbackItem gaugeItem = GaugeFeedbackItem.builder()
                 .withCollection(SearchmetricsFeedbackCollections.CONTENT)
-                .withValue(contentValidation.getContentScore().getContentScore() * 100, goal)
+                .withValue(briefing.getLatestContentVersion().getContentScore() * 100, goal)
                 .withTitle("searchmetrics_content_score")
                 .withHelp("searchmetrics_qtip_content_score")
                 .build();
@@ -105,7 +100,7 @@ public class SearchmetricsFeedbackAdapter implements TextFeedbackHubAdapter {
                 .withTitle("searchmetrics_score_details")
                 .withHelp("searchmetrics_qtip_word_count")
                 .withLabel("searchmetrics_word_count")
-                .withValue(contentValidation.getLength(), contentValidation.getTargetLength())
+                .withValue(briefing.getLatestContentVersion().getWordCount(), briefing.getTargetWordCount())
                 .build();
         items.add(wordCountItem);
 
@@ -115,7 +110,7 @@ public class SearchmetricsFeedbackAdapter implements TextFeedbackHubAdapter {
                 .withTitle(null)
                 .withHelp("searchmetrics_qtip_sentence_structure")
                 .withLabel("searchmetrics_sentence_structure")
-                .withValue(Math.round(contentValidation.getContentScore().getNaturalLanguageScore() * 100))
+                .withValue(Math.round(briefing.getLatestContentVersion().getNaturalLanguageScore() * 100))
                 .build();
         items.add(sentenceStructureItem);
 
@@ -125,7 +120,7 @@ public class SearchmetricsFeedbackAdapter implements TextFeedbackHubAdapter {
                 .withTitle(null)
                 .withHelp("searchmetrics_qtip_keyword_coverage")
                 .withLabel("searchmetrics_keyword_coverage")
-                .withValue(Math.round(contentValidation.getContentScore().getCoverageScore() * 100))
+                .withValue(Math.round(briefing.getLatestContentVersion().getCoverageScore() * 100))
                 .build();
         items.add(keywordCoverageItem);
 
@@ -135,12 +130,12 @@ public class SearchmetricsFeedbackAdapter implements TextFeedbackHubAdapter {
                 .withTitle(null)
                 .withHelp("searchmetrics_qtip_repetitions")
                 .withLabel("searchmetrics_repetitions")
-                .withValue(Math.round(contentValidation.getContentScore().getRepetitionScore() * 100))
+                .withValue(Math.round(briefing.getLatestContentVersion().getRepetitionScore() * 100))
                 .build();
         items.add(repetitionsItem);
 
 
-        int readability = Math.round(contentValidation.getReadability() * 10);
+        int readability = Math.round(briefing.getLatestContentVersion().getReadabilityScore() * 100);
         if (readability == 0) {
           readability = 1;
         }
@@ -157,17 +152,36 @@ public class SearchmetricsFeedbackAdapter implements TextFeedbackHubAdapter {
 
 
         //keyword tab
-        addMainScores(items, SearchmetricsFeedbackCollections.KEYWORDS, briefing, contentValidation);
-        items.add(new KeywordListFeedbackItem(SearchmetricsFeedbackCollections.KEYWORDS, "searchmetrics_must_have_keywords", contentValidation.getContentOptResults(), KeywordListFeedbackItem.MUST_HAVE, "searchmetrics_qtip_must_have_keywords"));
-        items.add(new KeywordListFeedbackItem(SearchmetricsFeedbackCollections.KEYWORDS, "searchmetrics_recommended_keywords", contentValidation.getContentOptResults(), KeywordListFeedbackItem.ADDITIONAL, "searchmetrics_qtip_additional_keywords"));
-        items.add(new KeywordListFeedbackItem(SearchmetricsFeedbackCollections.KEYWORDS, "searchmetrics_additional_keywords", contentValidation.getContentOptResults(), KeywordListFeedbackItem.RELEVANCE, "searchmetrics_qtip_recommended_keywords"));
+        addMainScores(items, SearchmetricsFeedbackCollections.KEYWORDS, briefing);
+
+        List<Keyword> briefKeywords = briefing.getBriefKeywords();
+        List<Keyword> mustHave = new ArrayList<>();
+        List<Keyword> recommended = new ArrayList<>();
+        List<Keyword> additional = new ArrayList<>();
+
+        for (Keyword briefKeyword : briefKeywords) {
+          String category = briefKeyword.getCategory();
+          if(category.equalsIgnoreCase(KeywordListFeedbackItem.MUST_HAVE)) {
+            mustHave.add(briefKeyword);
+          }
+          else if(category.equalsIgnoreCase(KeywordListFeedbackItem.RECOMMENDED)) {
+            mustHave.add(briefKeyword);
+          }
+          else if(category.equalsIgnoreCase(KeywordListFeedbackItem.ADDITIONAL)) {
+            mustHave.add(briefKeyword);
+          }
+        }
+
+        items.add(new KeywordListFeedbackItem(SearchmetricsFeedbackCollections.KEYWORDS, "searchmetrics_must_have_keywords", mustHave, KeywordListFeedbackItem.MUST_HAVE, "searchmetrics_qtip_must_have_keywords"));
+        items.add(new KeywordListFeedbackItem(SearchmetricsFeedbackCollections.KEYWORDS, "searchmetrics_additional_keywords", recommended, KeywordListFeedbackItem.RECOMMENDED, "searchmetrics_qtip_recommended_keywords"));
+        items.add(new KeywordListFeedbackItem(SearchmetricsFeedbackCollections.KEYWORDS, "searchmetrics_recommended_keywords", additional, KeywordListFeedbackItem.ADDITIONAL, "searchmetrics_qtip_additional_keywords"));
 
         //competitors tab
-        addMainScores(items, SearchmetricsFeedbackCollections.QUESTIONS, briefing, contentValidation);
+        addMainScores(items, SearchmetricsFeedbackCollections.QUESTIONS, briefing);
         items.add(new QuestionsListFeedbackItem(SearchmetricsFeedbackCollections.QUESTIONS, "searchmetrics_question_list", briefing));
 
-        addMainScores(items, SearchmetricsFeedbackCollections.COMPETITORS, briefing, contentValidation);
-        items.add(new DuplicatesListFeedbackItem(SearchmetricsFeedbackCollections.COMPETITORS, "searchmetrics_competitors_duplicate_check", "searchmetrics_qtip_duplicates", briefing.getId(), contentValidation.getDuplicationCheckResults()));
+        addMainScores(items, SearchmetricsFeedbackCollections.COMPETITORS, briefing);
+        items.add(new DuplicatesListFeedbackItem(SearchmetricsFeedbackCollections.COMPETITORS, "searchmetrics_competitors_duplicate_check", "searchmetrics_qtip_duplicates", briefingId, briefing.getDuplicationInformation()));
       }
       else {
         //add empty default tabs
@@ -188,15 +202,15 @@ public class SearchmetricsFeedbackAdapter implements TextFeedbackHubAdapter {
     }
   }
 
-  private void addMainScores(List<FeedbackItem> items, String collection, Briefing briefing, ContentValidation contentValidation) {
-    int goal = briefing.getInfos().getContentScoreGoal();
+  private void addMainScores(List<FeedbackItem> items, String collection, Briefing briefing) {
+    int goal = briefing.getTargetContentScore();
 
     ScoreBarFeedbackItem mainScoreItem = ScoreBarFeedbackItem.builder()
             .withCollection(collection)
             .withTitle("searchmetrics_main_scores")
             .withHelp("searchmetrics_qtip_content_score")
             .withLabel("searchmetrics_content_score")
-            .withValue(contentValidation.getContentScore().getContentScore() * 100, 100, goal)
+            .withValue(briefing.getLatestContentVersion().getContentScore() * 100, 100, goal)
             .build();
     items.add(mainScoreItem);
 
@@ -206,7 +220,7 @@ public class SearchmetricsFeedbackAdapter implements TextFeedbackHubAdapter {
             .withTitle(null)
             .withHelp("searchmetrics_qtip_word_count")
             .withLabel("searchmetrics_word_count")
-            .withValue(contentValidation.getLength(), contentValidation.getTargetLength())
+            .withValue(briefing.getLatestContentVersion().getContent().length(), briefing.getContentSequenceId())
             .build();
     items.add(wordCountItem);
   }
