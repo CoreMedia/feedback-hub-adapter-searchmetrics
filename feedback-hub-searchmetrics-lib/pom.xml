@@ -49,9 +49,14 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.springframework.security</groupId>
-      <artifactId>spring-security-oauth2-client</artifactId>
-      <version>${spring.oauth.client.version}</version>
+      <groupId>org.dmfs</groupId>
+      <artifactId>oauth2-essentials</artifactId>
+      <version>0.18</version>
+    </dependency>
+    <dependency>
+      <groupId>org.dmfs</groupId>
+      <artifactId>httpurlconnection-executor</artifactId>
+      <version>0.20</version>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
@@ -126,6 +131,13 @@
       <artifactId>jackson-datatype-jsr310</artifactId>
       <version>2.10.5</version>
       <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+      <version>4.13.2</version>
     </dependency>
   </dependencies>
 

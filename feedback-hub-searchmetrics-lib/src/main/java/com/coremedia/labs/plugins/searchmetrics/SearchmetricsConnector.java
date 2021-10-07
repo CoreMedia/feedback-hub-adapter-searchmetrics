@@ -3,28 +3,33 @@ package com.coremedia.labs.plugins.searchmetrics;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
+import org.dmfs.httpessentials.client.HttpRequestExecutor;
+import org.dmfs.httpessentials.httpurlconnection.HttpUrlConnectionExecutor;
+import org.dmfs.oauth2.client.BasicOAuth2AuthorizationProvider;
+import org.dmfs.oauth2.client.BasicOAuth2Client;
+import org.dmfs.oauth2.client.BasicOAuth2ClientCredentials;
+import org.dmfs.oauth2.client.OAuth2AccessToken;
+import org.dmfs.oauth2.client.OAuth2AuthorizationProvider;
+import org.dmfs.oauth2.client.OAuth2Client;
+import org.dmfs.oauth2.client.OAuth2ClientCredentials;
+import org.dmfs.oauth2.client.OAuth2InteractiveGrant;
+import org.dmfs.oauth2.client.grants.AuthorizationCodeGrant;
+import org.dmfs.oauth2.client.scope.BasicScope;
+import org.dmfs.rfc3986.Uri;
+import org.dmfs.rfc3986.encoding.Precoded;
+import org.dmfs.rfc3986.uris.LazyUri;
+import org.dmfs.rfc5545.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.oauth2.client.AuthorizedClientServiceOAuth2AuthorizedClientManager;
-import org.springframework.security.oauth2.client.OAuth2AuthorizeRequest;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
-import org.springframework.security.oauth2.client.registration.ClientRegistration;
-import org.springframework.security.oauth2.core.AuthorizationGrantType;
-import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.Collections;
+import java.net.URI;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -32,22 +37,17 @@ import java.util.Optional;
  */
 public class SearchmetricsConnector {
   private static final Logger LOG = LoggerFactory.getLogger(SearchmetricsConnector.class);
-  private static final String ENDPOINT = "https://graphql.searchmetrics.com";
-  private static final String REGISTRATION_ID = "coremedia";
+  private static final String ENDPOINT = "https://api.searchmetrics.com/some/endpoint";
+  private static final String AUTHORIZE_URL = "https://login.searchmetrics.com/authorize";
   private static final String TOKEN_URL = "https://login.searchmetrics.com/oauth/token";
-  private static final String SCOPE = "create:briefs%20read:briefs%20update:briefs";
-  private static final String GRANT_TYPE = "authorization_code";
+  private static final String SCOPES = "create:briefs read:briefs update:briefs";
 
   private RestTemplate restTemplate;
-  private AuthorizedClientServiceOAuth2AuthorizedClientManager authorizedClientServiceAndManager;
   private AuthorizationToken authorizationToken;
-  private ClientRegistration clientRegistration;
 
 
-  public SearchmetricsConnector(@Qualifier("searchmetricsRestTemplate") RestTemplate searchmetricsRestTemplate,
-                                AuthorizedClientServiceOAuth2AuthorizedClientManager authorizedClientServiceAndManager) {
+  public SearchmetricsConnector(@Qualifier("searchmetricsRestTemplate") RestTemplate searchmetricsRestTemplate) {
     this.restTemplate = searchmetricsRestTemplate;
-    this.authorizedClientServiceAndManager = authorizedClientServiceAndManager;
   }
 
   @NonNull
@@ -61,7 +61,7 @@ public class SearchmetricsConnector {
 
     HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity(payload, buildHttpHeaders(settings));
     Optional<ResponseEntity<T>> post = post(entity, contextPath, responseType);
-    if(post.isPresent()) {
+    if (post.isPresent()) {
       T responseBody = post.get().getBody();
       return Optional.of(responseBody);
     }
@@ -70,14 +70,14 @@ public class SearchmetricsConnector {
 
   @NonNull
   public <T> Optional<T> getResource(@NonNull SearchmetricsSettings settings,
-                                      @Nullable String contextPath,
-                                      @NonNull Class<T> responseType) {
+                                     @Nullable String contextPath,
+                                     @NonNull Class<T> responseType) {
     if (authorizationToken == null || authorizationToken.isExpired()) {
       refreshToken(settings);
     }
 
     Optional<ResponseEntity<T>> post = get(contextPath, responseType);
-    if(post.isPresent()) {
+    if (post.isPresent()) {
       T responseBody = post.get().getBody();
       return Optional.of(responseBody);
     }
@@ -85,53 +85,44 @@ public class SearchmetricsConnector {
   }
 
   private void refreshToken(@NonNull SearchmetricsSettings settings) {
-    if (clientRegistration == null) {
-      String redirectUrl = settings.getRedirectUrl();
-      if (!redirectUrl.endsWith("/")) {
-        redirectUrl += "/";
-      }
+    try {
+      // Create HttpRequestExecutor to execute HTTP requests
+      // Any other HttpRequestExecutor implementation will do
+      HttpRequestExecutor executor = new HttpUrlConnectionExecutor();
 
-      clientRegistration = ClientRegistration
-              .withRegistrationId(REGISTRATION_ID)
-              .tokenUri(TOKEN_URL)
-              .clientId(settings.getClientId())
-              .clientSecret(settings.getClientSecret())
-              .scope(SCOPE)
-              .redirectUri(redirectUrl)
-              .authorizationGrantType(new AuthorizationGrantType(GRANT_TYPE))
-              .build();
+      // Create OAuth2 provider
+      OAuth2AuthorizationProvider provider = new BasicOAuth2AuthorizationProvider(
+              URI.create(AUTHORIZE_URL),
+              URI.create(TOKEN_URL),
+              new Duration(1, 0, 3600) /* default expiration time in case the server doesn't return any */);
+
+      // Create OAuth2 client credentials
+      OAuth2ClientCredentials credentials = new BasicOAuth2ClientCredentials(
+              settings.getClientId(), settings.getClientSecret());
+
+      // Create OAuth2 client
+      OAuth2Client client = new BasicOAuth2Client(
+              provider,
+              credentials,
+              new LazyUri(new Precoded(settings.getRedirectUrl())) /* Redirect URL */);
+
+      // Start an interactive Authorization Code Grant
+      OAuth2InteractiveGrant grant = new AuthorizationCodeGrant(
+              client, new BasicScope(SCOPES.split(" ")));
+
+      // Get the authorization URL and open it in a WebView
+      URI authorizationUrl = grant.authorizationUrl();
+
+      // Open the URL in a WebView and wait for the redirect to the redirect URL
+      // After the redirect, feed the URL to the grant to retrieve the access token
+      Uri uri = new LazyUri(new Precoded(settings.getRedirectUrl()));
+      OAuth2AccessToken oAuth2AccessToken = grant.withRedirect(uri).accessToken(executor);
+
+      System.out.println(oAuth2AccessToken.accessToken());
     }
-
-
-    OAuth2AuthorizeRequest authorizeRequest = OAuth2AuthorizeRequest.withClientRegistrationId(REGISTRATION_ID)
-            .principal("Searchmetrics API")
-            .build();
-
-    // Perform the actual authorization request using the authorized client service and authorized client
-    // manager. This is where the JWT is retrieved from the Okta servers.
-    OAuth2AuthorizedClient authorizedClient = this.authorizedClientServiceAndManager.authorize(authorizeRequest);
-
-    // Get the token from the authorized client object
-    OAuth2AccessToken accessToken = Objects.requireNonNull(authorizedClient).getAccessToken();
-
-    LOG.info("Issued: " + accessToken.getIssuedAt().toString() + ", Expires:" + accessToken.getExpiresAt().toString());
-    LOG.info("Scopes: " + accessToken.getScopes().toString());
-    LOG.info("Token: " + accessToken.getTokenValue());
-
-    Map<String,String> data = new HashMap<>();
-    data.put("client_id", settings.getClientId());
-    data.put("client_secret", settings.getClientSecret());
-    data.put("grant_type", "refresh_token");
-    data.put("code", accessToken.getTokenValue());
-    data.put("redirect_uri", settings.getRedirectUrl());
-
-    HttpHeaders headers = new HttpHeaders();
-    headers.set("Content-Type", "application/x-www-form-urlencoded");
-    headers.set("Accept-Charset", "utf-8");
-
-    HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity(data, headers);
-    Optional<ResponseEntity<AuthorizationToken>> post = post(entity, "oauth/token", AuthorizationToken.class);
-    post.ifPresent(authorizationTokenResponseEntity -> this.authorizationToken = authorizationTokenResponseEntity.getBody());
+    catch (Exception e) {
+      LOG.error("Failed to refresh oauth token: " + e.getMessage(), e);
+    }
   }
 
   @NonNull
@@ -206,7 +197,7 @@ public class SearchmetricsConnector {
     }
 
     boolean isExpired() {
-      return (new Date().getTime() - creationDate.getTime()+(this.expiresIn*1000)) > 0;
+      return (new Date().getTime() - creationDate.getTime() + (this.expiresIn * 1000)) > 0;
     }
   }
 }
