@@ -37,7 +37,7 @@ public class BriefingCacheKey extends CacheKey<Briefing> {
   }
 
   public String dependencyId() {
-    return this.settings.getClientId() + ":" + this.briefingId;
+    return this.settings.getApiKey() + ":" + this.briefingId;
   }
 
   @Override

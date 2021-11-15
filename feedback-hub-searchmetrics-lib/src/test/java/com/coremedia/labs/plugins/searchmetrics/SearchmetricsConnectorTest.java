@@ -13,9 +13,8 @@ import java.util.List;
 
 public class SearchmetricsConnectorTest {
 
-  private static final String CLIENT_ID = "qf2x5FufynFcNUmMRznqJGFqrZsNRaez";
-  private static final String CLIENT_SECRET = "L7Ys2JnakHeSC8egkHEUsSTksHtCudj3iFZP_DOQpavLryDkJNx_dLwCl1BzFj03";
-  private static final String REDIRECT_URL = "https://www.coremedia.com/";
+  private static final String API_KEY = "8f4a831e14682349b25936ef26f765c142cba537";
+  private static final String API_SECRET = "1420f7e88883b58a4e5d108c77e6520a9d986b4d";
 
   private SearchmetricsSettings settings;
   private SearchmetricsService searchmetricsService;
@@ -25,20 +24,14 @@ public class SearchmetricsConnectorTest {
     settings = new SearchmetricsSettings() {
       @NonNull
       @Override
-      public String getClientId() {
-        return CLIENT_ID;
+      public String getApiKey() {
+        return API_KEY;
       }
 
       @NonNull
       @Override
-      public String getClientSecret() {
-        return CLIENT_SECRET;
-      }
-
-      @NonNull
-      @Override
-      public String getRedirectUrl() {
-        return REDIRECT_URL;
+      public String getApiSecret() {
+        return API_SECRET;
       }
     };
 

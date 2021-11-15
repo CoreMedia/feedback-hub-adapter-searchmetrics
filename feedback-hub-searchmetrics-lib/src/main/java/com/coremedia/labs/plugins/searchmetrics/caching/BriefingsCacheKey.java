@@ -47,11 +47,11 @@ public class BriefingsCacheKey extends CacheKey<List<Briefing>> {
   }
 
   public String dependencyId() {
-    return this.settings.getClientId();
+    return this.settings.getApiKey() + this.settings.getApiSecret();
   }
 
   @Override
   public int hashCode() {
-    return this.settings.getClientId().hashCode() + this.settings.getClientSecret().hashCode();
+    return this.settings.getApiKey().hashCode() + this.settings.getApiSecret().hashCode();
   }
 }

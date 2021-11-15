@@ -22,19 +22,14 @@ public class SearchmetricsFeedbackAdapterFactory implements FeedbackHubAdapterFa
 
   @Override
   public FeedbackHubAdapter create(SearchmetricsSettings settings) {
-    String clientId = settings.getClientId();
+    String clientId = settings.getApiKey();
     if (StringUtils.isEmpty(clientId)) {
-      throw new FeedbackHubException("settings must provide an clientId", SearchmetricsFeedbackHubErrorCode.CLIENT_ID_NOT_SET);
+      throw new FeedbackHubException("settings must provide an clientId", SearchmetricsFeedbackHubErrorCode.API_KEY_NOT_SET);
     }
 
-    String clientSecret = settings.getClientSecret();
+    String clientSecret = settings.getApiSecret();
     if (StringUtils.isEmpty(clientSecret)) {
-      throw new FeedbackHubException("settings must provide an clientSecret", SearchmetricsFeedbackHubErrorCode.CLIENT_SECRET_NOT_SET);
-    }
-
-    String redirectUrl = settings.getRedirectUrl();
-    if (redirectUrl == null) {
-      throw new FeedbackHubException("settings must provide an redirectUrl", SearchmetricsFeedbackHubErrorCode.REDIRECT_NOT_SET);
+      throw new FeedbackHubException("settings must provide an clientSecret", SearchmetricsFeedbackHubErrorCode.API_SECRET_NOT_SET);
     }
 
     return new SearchmetricsFeedbackAdapter(settings, service);
