@@ -4,7 +4,7 @@
 
 1. [Installation](installation.md)
 
-   How to administrate the feedback-hub-adapter-imagga plugin (especially in CoreMedia Studio).
+   How to administrate the feedback-hub-adapter-searchmetrics plugin (especially in CoreMedia Studio).
 
 1. [Contribute](contribute.md)
 
@@ -19,7 +19,7 @@
 * [Used Third-Party Libraries](THIRD-PARTY.txt)
 
     <!-- GitHub Pages is not able to list directory contents. Jump back to GitHub directly.  -->
-  For license texts have a look at [third-party-licenses](https://github.com/CoreMedia/feedback-hub-adapter-imagga/tree/cmcc-10-2007/docs/third-party-licenses).
+  For license texts have a look at [third-party-licenses](https://github.com/CoreMedia/feedback-hub-adapter-searchmetrics/tree/cmcc-10-2007/docs/third-party-licenses).
 
 
 

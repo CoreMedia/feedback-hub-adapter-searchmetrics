@@ -54,6 +54,7 @@ interface FeedbackHubSearchmetrics_properties {
   searchmetrics_additional_keywords: string;
   searchmetrics_other_questions: string;
   searchmetrics_other_questions_de: string;
+  searchmetrics_other_questions_en: string;
   searchmetrics_competitors_duplicate_check: string;
   searchmetrics_duplicated_page: string;
   searchmetrics_similarity: string;
@@ -133,6 +134,7 @@ const FeedbackHubSearchmetrics_properties: FeedbackHubSearchmetrics_properties =
   searchmetrics_additional_keywords: "Additional Keywords",
   searchmetrics_other_questions: "Other",
   searchmetrics_other_questions_de: "Andere",
+  searchmetrics_other_questions_en: "Other",
   searchmetrics_competitors_duplicate_check: "Competitors Duplicate Check",
   searchmetrics_duplicated_page: "Duplicated Page",
   searchmetrics_similarity: "Similarity",
