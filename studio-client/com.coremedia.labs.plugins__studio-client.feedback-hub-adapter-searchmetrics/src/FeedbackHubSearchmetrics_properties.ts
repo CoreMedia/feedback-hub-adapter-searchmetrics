@@ -156,7 +156,7 @@ const FeedbackHubSearchmetrics_properties: FeedbackHubSearchmetrics_properties =
   searchmetrics_error_API_KEY_NOT_SET: "Please provide a valid apiKey in the configuration for {0}.",
   searchmetrics_error_API_SECRET_NOT_SET: "Please provide a valid sharedKey in the configuration for {0}.",
   searchmetrics_error_PROJECT_ID_NOT_SET: "Please provide a valid projectId in the configuration for {0}.",
-  searchmetrics_error_PROPERTY_NOT_SET: "Please provide a valid propertyName in the configuration for {0}."
+  searchmetrics_error_PROPERTY_NOT_SET: "Please provide a valid propertyName in the configuration for {0}.",
 };
 
 export default FeedbackHubSearchmetrics_properties;

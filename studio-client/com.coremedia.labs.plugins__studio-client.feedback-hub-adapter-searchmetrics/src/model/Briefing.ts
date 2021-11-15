@@ -1,27 +1,27 @@
-import SearchmetricsPropertyNames from "../SearchmetricsPropertyNames";
 import BeanImpl from "@coremedia/studio-client.client-core-impl/data/impl/BeanImpl";
-
+import SearchmetricsPropertyNames from "../SearchmetricsPropertyNames";
 
 class Briefing extends BeanImpl {
 
-  constructor(json:any) {
+  constructor(json: any) {
     super(json);
   }
 
-  getBriefingId():string {
+  getBriefingId(): string {
     return this.get(SearchmetricsPropertyNames.ID);
   }
 
-  getName():string {
+  getName(): string {
     return this.get(SearchmetricsPropertyNames.NAME);
   }
 
-  getContent():string {
+  getContent(): string {
     return this.get(SearchmetricsPropertyNames.CONTENT);
   }
 
-  getLanguage():string {
+  getLanguage(): string {
     return this.get(SearchmetricsPropertyNames.LANGUAGE);
   }
 }
+
 export default Briefing;
