@@ -1,0 +1,11 @@
+
+Lists of 9 third-party dependencies.
+     (The Apache Software License, Version 2.0) Jackson-annotations (com.fasterxml.jackson.core:jackson-annotations:2.10.5 - http://github.com/FasterXML/jackson)
+     (The Apache Software License, Version 2.0) jackson-databind (com.fasterxml.jackson.core:jackson-databind:2.10.5.1 - http://github.com/FasterXML/jackson)
+     (The Apache Software License, Version 2.0) Jackson datatype: JSR310 (com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.10.5 - https://github.com/FasterXML/jackson-modules-java8/jackson-datatype-jsr310)
+     (GNU LESSER GENERAL PUBLIC LICENSE, Version 2.1) SpotBugs Annotations (com.github.spotbugs:spotbugs-annotations:3.1.5 - https://spotbugs.github.io/)
+     (Apache License, Version 2.0) Apache Commons Lang (org.apache.commons:commons-lang3:3.10 - https://commons.apache.org/proper/commons-lang/)
+     (MIT License) SLF4J API Module (org.slf4j:slf4j-api:1.7.30 - http://www.slf4j.org)
+     (Apache License, Version 2.0) Spring Beans (org.springframework:spring-beans:5.2.15.RELEASE - https://github.com/spring-projects/spring-framework)
+     (Apache License, Version 2.0) Spring Context (org.springframework:spring-context:5.2.15.RELEASE - https://github.com/spring-projects/spring-framework)
+     (Apache License, Version 2.0) Spring Web (org.springframework:spring-web:5.2.15.RELEASE - https://github.com/spring-projects/spring-framework)
