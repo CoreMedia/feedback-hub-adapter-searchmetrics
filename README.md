@@ -30,7 +30,7 @@ are available only since 2101.
 
 ## Documentation & Tutorial
 
-* **[Configuration](documentation/Configuration.md)**
+* **[Documentation](docs/README.md)**
 
   for guides administrators and developers
 
@@ -46,16 +46,16 @@ are available only since 2101.
 ### Screenshots
 
 ##### Overall Scoring Overview
-![Searchmetrics](documentation/searchmetrics.png "Searchmetrics Scoring")
+![Searchmetrics](docs/images/searchmetrics.png "Searchmetrics Scoring")
 
 ##### Keyword Scoring 
-![Searchmetrics](documentation/searchmetrics_keys.png "Searchmetrics Scoring")
+![Searchmetrics](docs/images/searchmetrics_keys.png "Searchmetrics Scoring")
 
 ##### Content Questions
-![Searchmetrics](documentation/searchmetrics_scores.png "Searchmetrics Scoring")
+![Searchmetrics](docs/images/searchmetrics_scores.png "Searchmetrics Scoring")
 
 ##### Competitors Overview
-![Searchmetrics](documentation/searchmetrics_comp.png "Searchmetrics Scoring")
+![Searchmetrics](docs/images/searchmetrics_comp.png "Searchmetrics Scoring")
 
 
 ## CoreMedia Labs
