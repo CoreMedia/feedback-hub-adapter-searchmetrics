@@ -9,7 +9,6 @@
   <modules>
     <module>studio-server</module>
     <module>feedback-hub-searchmetrics-lib</module>
-    <module>plugin-descriptor</module>
   </modules>
 
   <properties>

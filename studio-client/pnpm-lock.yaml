@@ -20,7 +20,7 @@ importers:
       eslint-plugin-jsdoc: 35.1.2_eslint@7.27.0
       eslint-plugin-unused-imports: 1.1.4_5e475ecabd5795b45844ca086da5cb86
 
-  com.coremedia.labs.plugins__studio-client.feedback-hub-adapter-searchmetrics:
+  feedback-hub-adapter-searchmetrics:
     specifiers:
       '@coremedia/studio-client.cap-rest-client': 2110.1.0-pr3
       '@coremedia/studio-client.cap-rest-client-impl': 2110.1.0-pr3
