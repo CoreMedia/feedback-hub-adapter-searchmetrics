@@ -1,2 +1,2 @@
 packages:
-  - "feedback-hub-adapter-searchmetrics"
+  - "apps/main/feedback-hub-adapter-searchmetrics"
