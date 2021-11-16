@@ -1,5 +1,5 @@
 {
-  "name": "feedback-hub-adapter-searchmetrics",
+  "name": "@coremedia-labs/studio-client.main.feedback-hub-adapter-searchmetrics",
   "author": "CoreMedia GmbH",
   "license": "CoreMedia Open Source License",
   "version": "2.0.0-SNAPSHOT",
