@@ -55,8 +55,8 @@ please visit https://developers.searchmetrics.com/ for more detailed instruction
         <Struct>
           <StringProperty Name="apiKey">YOUR_API_KEY</StringProperty>
           <StringProperty Name="sharedSecret">YOUR_SHARED_API_KEY</StringProperty>
-          <StringProperty Name="propertyName">detailText</StringProperty>
-          <StringProperty Name="projectId">YOUR_PROJECT_ID</StringProperty>
+          <StringProperty Name="sourceProperties">detailText</StringProperty>
+          <IntProperty Name="projectId">YOUR_PROJECT_ID</IntProperty>
           <BooleanProperty Name="includeKeywords">true</BooleanProperty>
           <BooleanProperty Name="includeTaxonomies">true</BooleanProperty>
         </Struct>
