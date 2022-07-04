@@ -13,7 +13,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <jangaroo.version>4.1.9</jangaroo.version>
-    <cm.studio-client.core.version>2107.3</cm.studio-client.core.version>
+    <cm.studio-client.core.version>2107.4</cm.studio-client.core.version>
     <!-- mvn jangaroo:run configuration: -->
     <!-- Proxy everything to a running Studio (except the locally developed package) -->
     <jooProxyPathSpec>/*</jooProxyPathSpec>

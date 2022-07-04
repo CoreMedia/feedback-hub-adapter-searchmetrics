@@ -16,7 +16,7 @@ If a project is inactive it means that the development has been discontinued and
 
 This is an integration for the SEO and content marketing platform __Searchmetrics__ (https://www.searchmetrics.com/).
 
-The Feedback Hub Adapter 'Searchmetrics' is implemented as a Blueprint extension.
+The Feedback Hub Adapter 'Searchmetrics' is implemented as a Blueprint plugin.
 
 We usually only work on the latest CoreMedia version, so the latest version of the documentation and demo content 
 may be on the latest version branch.

@@ -64,3 +64,4 @@ overlays/
 tmp/
 temp/
 target/
+/studio-client/apps/main/feedback-hub-adapter-searchmetrics/dist/
