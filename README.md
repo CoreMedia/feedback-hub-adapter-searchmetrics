@@ -1,6 +1,6 @@
 ![CoreMedia Labs Logo](https://documentation.coremedia.com/badges/banner_coremedia_labs_wide.png "CoreMedia Labs Logo")
 
-![CoreMedia Content Cloud Version](https://img.shields.io/static/v1?message=2110&label=CoreMedia%20Content%20Cloud&style=for-the-badge&labelColor=666666&color=672779 
+![CoreMedia Content Cloud Version](https://img.shields.io/static/v1?message=2207&label=CoreMedia%20Content%20Cloud&style=for-the-badge&labelColor=666666&color=672779 
 "This badge shows the CoreMedia version(s) this project is compatible with. 
 Please read the versioning section of the project to see what other CoreMedia versions are supported and how to find them."
 )
@@ -19,9 +19,6 @@ We usually only work on the latest CoreMedia version, so the latest version of t
 may be on the latest version branch.
 
 ## Versioning
-
-The master branch of this project is suitable for CoreMedia versions since 2107.
-It is based on the plugin architecture.
 
 For older CoreMedia versions there are branches with corresponding names.
 For example, if your CoreMedia version is 2107.2, checkout the branch cmcc-10-2107.2-<LATEST>.

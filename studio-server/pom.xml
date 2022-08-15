@@ -11,8 +11,9 @@
     <maven.compiler.release>11</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <cm.studio-server.core.version>2110.1-pr3</cm.studio-server.core.version>
-    <cm.common.core.version>2110.1-pr3</cm.common.core.version>
+    <cm.studio-server.core.version>2207.1</cm.studio-server.core.version>
+    <cm.common.core.version>2207.1</cm.common.core.version>
+    <cm.middle.core.version>2207.1</cm.middle.core.version>
   </properties>
 
   <repositories>
@@ -91,14 +92,14 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-web</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
       <groupId>com.github.spotbugs</groupId>
       <artifactId>spotbugs-annotations</artifactId>
       <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+      <version>2.10.5</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -118,71 +119,63 @@
   </dependencies>
 
   <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.8.1</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-jar-plugin</artifactId>
-          <version>3.2.0</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-clean-plugin</artifactId>
-          <version>3.1.0</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-archetype-plugin</artifactId>
-          <version>3.0.1</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-resources-plugin</artifactId>
-          <version>3.0.2</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-install-plugin</artifactId>
-          <version>2.5.2</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-deploy-plugin</artifactId>
-          <version>2.8.2</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.22.1</version>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-
     <plugins>
       <plugin>
-        <artifactId>maven-jar-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>default-jar</id>
-            <phase>none</phase>
-          </execution>
-        </executions>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
       </plugin>
+
       <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <version>3.3.0</version>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>3.1.2</version>
         <configuration>
-          <descriptors>
-            <descriptor>src/assembly/descriptor.xml</descriptor>
-          </descriptors>
-          <appendAssemblyId>false</appendAssemblyId>
+          <ignoredDependencies>
+            <!-- JUnit Jupiter: Use Aggregator rather than API/Engine Artifacts directly -->
+            <ignoredDependency>org.junit.jupiter:junit-jupiter</ignoredDependency>
+            <ignoredDependency>org.junit.jupiter:junit-jupiter-api</ignoredDependency>
+            <ignoredDependency>org.junit.jupiter:junit-jupiter-params</ignoredDependency>
+          </ignoredDependencies>
         </configuration>
         <executions>
           <execution>
-            <id>make-plugin</id>
-            <phase>package</phase>
+            <id>analyze-duplicate</id>
             <goals>
-              <goal>single</goal>
+              <goal>analyze-duplicate</goal>
             </goals>
           </execution>
+          <execution>
+            <id>analyze-only</id>
+            <goals>
+              <goal>analyze-only</goal>
+            </goals>
+            <configuration>
+              <failOnWarning>true</failOnWarning>
+              <ignoreNonCompile>false</ignoreNonCompile>
+            </configuration>
+          </execution>
         </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>com.coremedia.maven</groupId>
+        <artifactId>coremedia-plugins-maven-plugin</artifactId>
+        <version>1.0.1</version>
+        <extensions>true</extensions>
+        <configuration>
+          <pluginId>${project.artifactId}</pluginId>
+          <pluginVersion>${project.version}</pluginVersion>
+          <pluginConfigurationClass>com.coremedia.labs.plugins.feedbackhub.adapter.searchmetrics.SearchmetricsFeedbackHubConfiguration</pluginConfigurationClass>
+          <pluginProvider>CoreMedia</pluginProvider>
+          <pluginRequires>>=11.2204.1</pluginRequires>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>2.8.2</version>
       </plugin>
     </plugins>
   </build>
