@@ -8,6 +8,7 @@ import com.coremedia.rest.cap.jobs.Job;
 import com.coremedia.rest.cap.jobs.JobContext;
 import com.coremedia.rest.cap.jobs.JobExecutionException;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
 import org.slf4j.Logger;
@@ -27,12 +28,12 @@ public class GetBriefingsJob implements Job {
     this.feedbackSettingsProvider = feedbackSettingsProvider;
   }
 
-  @JsonProperty("siteId")
+  @SerializedName("siteId")
   public void setSiteId(String siteId) {
     this.siteId = siteId;
   }
 
-  @JsonProperty("groupId")
+  @SerializedName("groupId")
   public void setGroupId(String groupId) {
     this.groupId = groupId;
   }

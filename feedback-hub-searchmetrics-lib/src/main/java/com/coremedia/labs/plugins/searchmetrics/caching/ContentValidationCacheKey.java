@@ -1,14 +1,14 @@
 package com.coremedia.labs.plugins.searchmetrics.caching;
 
+import com.coremedia.cache.Cache;
+import com.coremedia.cache.CacheKey;
+import com.coremedia.cap.content.Content;
 import com.coremedia.labs.plugins.searchmetrics.SearchmetricsConnector;
 import com.coremedia.labs.plugins.searchmetrics.SearchmetricsSettings;
 import com.coremedia.labs.plugins.searchmetrics.documents.Briefing;
 import com.coremedia.labs.plugins.searchmetrics.documents.ContentValidation;
 import com.coremedia.labs.plugins.searchmetrics.documents.QueryResult;
 import com.coremedia.labs.plugins.searchmetrics.queries.ValidateContentQuery;
-import com.coremedia.cache.Cache;
-import com.coremedia.cache.CacheKey;
-import com.coremedia.cap.content.Content;
 import com.coremedia.xml.Markup;
 import com.coremedia.xml.MarkupUtil;
 import edu.umd.cs.findbugs.annotations.NonNull;
@@ -84,7 +84,7 @@ public class ContentValidationCacheKey extends CacheKey<ContentValidation> {
 
     Map<String, Object> properties = content.getProperties();
     Set<Map.Entry<String, Object>> entries = properties.entrySet();
-    if(briefing == null) {
+    if (briefing == null) {
       return "";
     }
 
@@ -108,7 +108,7 @@ public class ContentValidationCacheKey extends CacheKey<ContentValidation> {
       contentText = contentText + getKeywords(content, KEYWORDS);
     }
 
-    if(contentText == null) {
+    if (contentText == null) {
       contentText = "";
     }
 

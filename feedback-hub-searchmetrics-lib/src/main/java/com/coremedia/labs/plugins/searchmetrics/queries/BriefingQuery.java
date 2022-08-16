@@ -4,7 +4,7 @@ package com.coremedia.labs.plugins.searchmetrics.queries;
  *
  */
 public class BriefingQuery implements Query {
-  private static final String TEMPLATE =  "{ \"query\" : \"{  \n" +
+  private static final String TEMPLATE = "{ \"query\" : \"{  \n" +
           "  content_experience {\n" +
           "    briefing(id:\\\"'id'\\\") {\n" +
           "      project_id\n" +

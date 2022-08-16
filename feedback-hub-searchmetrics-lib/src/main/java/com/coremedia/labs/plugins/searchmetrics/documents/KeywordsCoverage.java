@@ -1,6 +1,6 @@
 package com.coremedia.labs.plugins.searchmetrics.documents;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 
 /**
  *
@@ -9,10 +9,10 @@ public class KeywordsCoverage {
   private String keyword;
   private String keywordType;
 
-  @JsonProperty("current_frequency")
+  @SerializedName("current_frequency")
   private int currentFrequency;
 
-  @JsonProperty("target_frequency")
+  @SerializedName("target_frequency")
   private int targetFrequency;
 
   public String getKeyword() {

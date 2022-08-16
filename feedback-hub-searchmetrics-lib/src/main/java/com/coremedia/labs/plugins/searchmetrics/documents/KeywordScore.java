@@ -1,6 +1,6 @@
 package com.coremedia.labs.plugins.searchmetrics.documents;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 
 /**
  *
@@ -10,7 +10,7 @@ public class KeywordScore {
   private String keyword;
   private int target;
 
-  @JsonProperty("term_id")
+  @SerializedName("term_id")
   private String termId;
 
   public int getCurrent() {

@@ -7,16 +7,19 @@ import ValueExpressionFactory from "@coremedia/studio-client.client-core/data/Va
 import MessageBoxUtil from "@coremedia/studio-client.ext.ui-components/messagebox/MessageBoxUtil";
 import LoadMaskSkin from "@coremedia/studio-client.ext.ui-components/skins/LoadMaskSkin";
 import editorContext from "@coremedia/studio-client.main.editor-components/sdk/editorContext";
-import FeedbackItemPanel from "@coremedia/studio-client.main.feedback-hub-editor-components/components/itempanels/FeedbackItemPanel";
+import FeedbackItemPanel
+  from "@coremedia/studio-client.main.feedback-hub-editor-components/components/itempanels/FeedbackItemPanel";
 import LoadMask from "@jangaroo/ext-ts/LoadMask";
 import Button from "@jangaroo/ext-ts/button/Button";
-import { as, bind } from "@jangaroo/runtime";
+import {as, bind} from "@jangaroo/runtime";
 import Config from "@jangaroo/runtime/Config";
 import trace from "@jangaroo/runtime/trace";
 import FeedbackHubSearchmetrics_properties from "../FeedbackHubSearchmetrics_properties";
 import Briefing from "../model/Briefing";
 import BriefingInfo from "../model/BriefingInfo";
 import BriefingSelectorItemPanel from "./BriefingSelectorItemPanel";
+import EventUtil from "@coremedia/studio-client.client-core/util/EventUtil";
+import Component from "@jangaroo/ext-ts/Component";
 
 interface BriefingSelectorItemPanelBaseConfig extends Config<FeedbackItemPanel> {
 }
@@ -110,13 +113,21 @@ class BriefingSelectorItemPanelBase extends FeedbackItemPanel {
           const result = details;
           const briefing = new Briefing(result);
           this.getBriefingContentExpression().setValue(briefing.getContent());
+
+          const container = this.getBriefingContentContainer();
+          EventUtil.invokeLater(() => {
+            container.updateLayout();
+          });
         },
         //on error
         (error: JobExecutionError): void =>
           trace("[ERROR]", "Error loading briefing details: " + error),
-
       );
     }
+  }
+
+  getBriefingContentContainer(): Component {
+    return this.queryById('briefingContent');
   }
 
   getBriefingContentExpression(): ValueExpression {
@@ -207,13 +218,14 @@ class BriefingSelectorItemPanelBase extends FeedbackItemPanel {
             jobService._.executeJob(
               new GenericRemoteJob(JOB_TYPE, params),
               //on success
-              (details: any): void =>
-                this.reload()
-              ,
+              (details: any): void => {
+                window.setTimeout(() => {
+                  this.reload()
+                }, 2000);
+              },
               //on error
               (error: JobExecutionError): void =>
                 trace("[ERROR]", "Error assigning briefing: " + error),
-
             );
           }
         }

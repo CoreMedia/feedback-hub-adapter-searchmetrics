@@ -1,6 +1,6 @@
 package com.coremedia.labs.plugins.searchmetrics.documents;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ public class Briefing {
   private String language;
   private String content;
 
-  @JsonProperty("main_topic")
+  @SerializedName("main_topic")
   private String mainTopic;
 
   private BriefingInfos infos;
@@ -22,16 +22,16 @@ public class Briefing {
 //  @JsonProperty("topics_coverage")
 //  private TopicsCoverage topicsCoverage;
 
-  @JsonProperty("target_score")
+  @SerializedName("target_score")
   private int targetScore;
 
-  @JsonProperty("target_length")
+  @SerializedName("target_length")
   private int targetLength;
 
-  @JsonProperty("content_score")
-  private int contentScore;
+  @SerializedName("content_score")
+  private float contentScore;
 
-  @JsonProperty("content_length")
+  @SerializedName("content_length")
   private int contentLength;
 
   private List<Questions> questions;
@@ -100,11 +100,11 @@ public class Briefing {
     this.targetLength = targetLength;
   }
 
-  public int getContentScore() {
+  public float getContentScore() {
     return contentScore;
   }
 
-  public void setContentScore(int contentScore) {
+  public void setContentScore(float contentScore) {
     this.contentScore = contentScore;
   }
 

@@ -1,6 +1,6 @@
 package com.coremedia.labs.plugins.searchmetrics.documents;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 
 /**
  *
@@ -9,9 +9,9 @@ public class Question {
   private String id;
   private String question;
 
-  @JsonProperty("local_rank")
+  @SerializedName("local_rank")
   private int localRank;
-  @JsonProperty("global_rank")
+  @SerializedName("global_rank")
   private int globalRank;
 
   private String group;

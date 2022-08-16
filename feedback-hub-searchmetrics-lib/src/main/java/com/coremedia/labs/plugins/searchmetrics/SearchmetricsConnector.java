@@ -1,5 +1,6 @@
 package com.coremedia.labs.plugins.searchmetrics;
 
+import com.google.gson.Gson;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
 import org.slf4j.Logger;
@@ -38,13 +39,13 @@ public class SearchmetricsConnector {
   private <T> Optional<T> performRequest(@NonNull HttpMethod httpMethod,
                                          @NonNull HttpEntity<String> requestEntity,
                                          @NonNull Class<T> responseType) {
-    Optional<ResponseEntity<T>> responseEntityOptional = makeExchange(httpMethod, requestEntity, responseType);
+    Optional<ResponseEntity<String>> responseEntityOptional = makeExchange(httpMethod, requestEntity);
     if (!responseEntityOptional.isPresent()) {
       return Optional.empty();
     }
-    ResponseEntity<T> responseEntity = responseEntityOptional.get();
-    T responseBody = responseEntity.getBody();
-    return Optional.ofNullable(responseBody);
+    ResponseEntity<String> responseEntity = responseEntityOptional.get();
+    Gson gson = new Gson();
+    return Optional.ofNullable(gson.fromJson(responseEntity.getBody(), responseType));
   }
 
   @NonNull
@@ -64,10 +65,9 @@ public class SearchmetricsConnector {
   }
 
   @NonNull
-  private <T> Optional<ResponseEntity<T>> makeExchange(@NonNull HttpMethod httpMethod,
-                                                       @NonNull HttpEntity<String> requestEntity,
-                                                       @NonNull Class<T> responseType) {
-    ResponseEntity<T> responseEntity = restTemplate.exchange(URI.create(ENDPOINT), httpMethod, requestEntity, responseType);
+  private Optional<ResponseEntity<String>> makeExchange(@NonNull HttpMethod httpMethod,
+                                                        @NonNull HttpEntity<String> requestEntity) {
+    ResponseEntity<String> responseEntity = restTemplate.exchange(URI.create(ENDPOINT), httpMethod, requestEntity, String.class);
     return Optional.of(responseEntity);
   }
 }

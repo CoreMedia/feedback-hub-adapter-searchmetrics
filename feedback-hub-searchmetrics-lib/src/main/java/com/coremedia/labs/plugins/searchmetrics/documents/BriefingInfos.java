@@ -1,13 +1,13 @@
 package com.coremedia.labs.plugins.searchmetrics.documents;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 
 /**
  *
  */
 public class BriefingInfos {
 
-  @JsonProperty("content_score_goal")
+  @SerializedName("content_score_goal")
   private int contentScoreGoal;
 
   public int getContentScoreGoal() {

@@ -1,13 +1,13 @@
 package com.coremedia.labs.plugins.searchmetrics.documents;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 
 /**
  *
  */
 public class ContentExperience {
 
-  @JsonProperty("briefings_list")
+  @SerializedName("briefings_list")
   private BriefingList briefingsList;
 
   private Briefing briefing;

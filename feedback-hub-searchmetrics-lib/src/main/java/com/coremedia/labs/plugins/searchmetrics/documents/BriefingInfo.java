@@ -1,6 +1,6 @@
 package com.coremedia.labs.plugins.searchmetrics.documents;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 
 /**
  *
@@ -9,7 +9,7 @@ public class BriefingInfo {
   private String id;
   private String story;
 
-  @JsonProperty("text_length")
+  @SerializedName("text_length")
   private int textLength;
 
   public String getId() {

@@ -1,12 +1,12 @@
 package com.coremedia.labs.plugins.searchmetrics.caching;
 
+import com.coremedia.cache.Cache;
+import com.coremedia.cache.CacheKey;
 import com.coremedia.labs.plugins.searchmetrics.SearchmetricsConnector;
 import com.coremedia.labs.plugins.searchmetrics.SearchmetricsSettings;
 import com.coremedia.labs.plugins.searchmetrics.documents.Briefing;
 import com.coremedia.labs.plugins.searchmetrics.documents.QueryResult;
 import com.coremedia.labs.plugins.searchmetrics.queries.BriefingQuery;
-import com.coremedia.cache.Cache;
-import com.coremedia.cache.CacheKey;
 import edu.umd.cs.findbugs.annotations.NonNull;
 
 import java.util.Optional;

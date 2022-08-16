@@ -1,24 +1,24 @@
 package com.coremedia.labs.plugins.searchmetrics.documents;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 
 /**
  *
  */
 public class ContentScore {
-  @JsonProperty("content_score")
+  @SerializedName("content_score")
   private float contentScore;
 
-  @JsonProperty("coverage_score")
+  @SerializedName("coverage_score")
   private float coverageScore;
 
-  @JsonProperty("length_score")
+  @SerializedName("length_score")
   private float lengthScore;
 
-  @JsonProperty("natural_language_score")
+  @SerializedName("natural_language_score")
   private float naturalLanguageScore;
 
-  @JsonProperty("repetition_score")
+  @SerializedName("repetition_score")
   private float repetitionScore;
 
   public float getContentScore() {

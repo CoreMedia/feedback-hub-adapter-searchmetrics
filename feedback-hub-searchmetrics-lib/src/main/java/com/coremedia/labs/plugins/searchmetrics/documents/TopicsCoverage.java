@@ -1,6 +1,6 @@
 package com.coremedia.labs.plugins.searchmetrics.documents;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 
 /**
  *
@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class TopicsCoverage {
   private String topic;
 
-  @JsonProperty("keywords_coverage")
+  @SerializedName("keywords_coverage")
   private KeywordsCoverage keywordsCoverage;
 
   public String getTopic() {

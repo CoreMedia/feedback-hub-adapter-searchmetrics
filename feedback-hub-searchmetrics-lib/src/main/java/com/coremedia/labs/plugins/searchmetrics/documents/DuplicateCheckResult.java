@@ -14,7 +14,7 @@ public class DuplicateCheckResult {
   private String url;
 
   public int getDuplicationScore() {
-    if(duplicationScore < 0) {
+    if (duplicationScore < 0) {
       return 0;
     }
     return duplicationScore;

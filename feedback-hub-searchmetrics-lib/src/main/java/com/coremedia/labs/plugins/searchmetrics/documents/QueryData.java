@@ -1,16 +1,16 @@
 package com.coremedia.labs.plugins.searchmetrics.documents;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 
 /**
  *
  */
 public class QueryData {
 
-  @JsonProperty("content_experience")
+  @SerializedName("content_experience")
   private ContentExperience contentExperience;
 
-  @JsonProperty("content_validation")
+  @SerializedName("content_validation")
   private ContentValidation contentValidation;
 
   public ContentExperience getContentExperience() {

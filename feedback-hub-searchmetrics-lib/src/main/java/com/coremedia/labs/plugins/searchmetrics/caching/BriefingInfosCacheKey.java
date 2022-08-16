@@ -41,12 +41,12 @@ public class BriefingInfosCacheKey extends CacheKey<List<BriefingInfo>> {
     if (queryResult.isPresent()) {
       QueryData data = queryResult.get().getData();
       ContentExperience contentExperience = data.getContentExperience();
-      if(contentExperience != null) {
+      if (contentExperience != null) {
         BriefingList briefingsList = contentExperience.getBriefingsList();
         List<BriefingInfo> briefings = briefingsList.getBriefings();
         LOG.info("Searchmetrics returned " + briefings.size() + " briefings.");
-      }
-      else {
+        return briefings;
+      } else {
         LOG.warn("Failed to load briefings from Searchmetrics, view LoggingInterceptor debug logs for details.");
       }
     }

@@ -1,5 +1,6 @@
 package com.coremedia.labs.plugins.searchmetrics;
 
+import com.coremedia.cache.Cache;
 import com.coremedia.labs.plugins.searchmetrics.caching.BriefingCacheKey;
 import com.coremedia.labs.plugins.searchmetrics.caching.BriefingInfosCacheKey;
 import com.coremedia.labs.plugins.searchmetrics.caching.ContentValidationCacheKey;
@@ -7,7 +8,6 @@ import com.coremedia.labs.plugins.searchmetrics.documents.Briefing;
 import com.coremedia.labs.plugins.searchmetrics.documents.BriefingInfo;
 import com.coremedia.labs.plugins.searchmetrics.documents.ContentValidation;
 import com.coremedia.labs.plugins.searchmetrics.helper.BriefingAssigments;
-import com.coremedia.cache.Cache;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
 

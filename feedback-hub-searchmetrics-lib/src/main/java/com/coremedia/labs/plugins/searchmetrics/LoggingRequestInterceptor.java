@@ -28,27 +28,26 @@ public class LoggingRequestInterceptor implements ClientHttpRequestInterceptor {
 
   private void traceRequest(HttpRequest request, byte[] body) {
     LOG.debug("\n===========================request begin================================================\n" +
-              "URI         : {}\n" +
-              "Method      : {}\n" +
-              "Headers     : {}\n" +
-              "Request body: {}\n" +
-              "==========================request end================================================",
-              request.getURI(),
-              request.getMethod(),
-              request.getHeaders(),
-              new String(body, StandardCharsets.UTF_8)
-             );
+                    "URI         : {}\n" +
+                    "Method      : {}\n" +
+                    "Headers     : {}\n" +
+                    "Request body: {}\n" +
+                    "==========================request end================================================",
+            request.getURI(),
+            request.getMethod(),
+            request.getHeaders(),
+            new String(body, StandardCharsets.UTF_8)
+    );
   }
 
   private void traceResponse(ClientHttpResponse response) throws IOException {
     if (response.getStatusCode().is5xxServerError()) {
       LOG.debug("=======================response begin===============================================\n" +
-                "Status code  : {}\n" +
-                "=======================response end=================================================",
-                response.getStatusCode()
-               );
-    }
-    else {
+                      "Status code  : {}\n" +
+                      "=======================response end=================================================",
+              response.getStatusCode()
+      );
+    } else {
       StringBuilder inputStringBuilder = new StringBuilder();
       BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getBody(), StandardCharsets.UTF_8));
       String line = bufferedReader.readLine();
@@ -58,16 +57,16 @@ public class LoggingRequestInterceptor implements ClientHttpRequestInterceptor {
         line = bufferedReader.readLine();
       }
       LOG.debug("\n=======================response begin===============================================\n" +
-                "Status code  : {}\n" +
-                "Status text  : {}\n" +
-                "Headers      : {}\n" +
-                "Response body: {}\n" +
-                "=======================response end=================================================",
-                response.getStatusCode(),
-                response.getStatusText(),
-                response.getHeaders(),
-                inputStringBuilder.toString()
-               );
+                      "Status code  : {}\n" +
+                      "Status text  : {}\n" +
+                      "Headers      : {}\n" +
+                      "Response body: {}\n" +
+                      "=======================response end=================================================",
+              response.getStatusCode(),
+              response.getStatusText(),
+              response.getHeaders(),
+              inputStringBuilder.toString()
+      );
     }
   }
 }
