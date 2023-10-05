@@ -1,7 +1,9 @@
 package com.coremedia.labs.plugins.searchmetrics.documents;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,14 +13,17 @@ public class ContentOptResult {
   private int contentOptScore;
   private String keyword;
 
+  @JsonProperty("MUST_HAVE")
   @SerializedName("MUST_HAVE")
-  private List<KeywordScore> mustHave;
+  private List<KeywordScore> mustHave = new ArrayList<>();
 
+  @JsonProperty("ADDITIONAL")
   @SerializedName("ADDITIONAL")
-  private List<KeywordScore> additional;
+  private List<KeywordScore> additional = new ArrayList<>();
 
+  @JsonProperty("RELEVANCE")
   @SerializedName("RELEVANCE")
-  private List<KeywordScore> relevance;
+  private List<KeywordScore> relevance = new ArrayList<>();
 
   public int getContentOptScore() {
     return contentOptScore;
