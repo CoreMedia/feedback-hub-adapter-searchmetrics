@@ -5,7 +5,7 @@
 
   <groupId>com.coremedia.labs.plugins</groupId>
   <artifactId>studio-server.feedback-hub-adapter-searchmetrics</artifactId>
-  <version>2.0.2</version>
+  <version>2.0.3-SNAPSHOT</version>
   <packaging>coremedia-plugin</packaging>
 
   <properties>
@@ -66,7 +66,7 @@
     <dependency>
       <groupId>com.coremedia.labs.plugins</groupId>
       <artifactId>feedback-hub-searchmetrics-lib</artifactId>
-      <version>2.0.2</version>
+      <version>2.0.3-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>com.coremedia.cms</groupId>
