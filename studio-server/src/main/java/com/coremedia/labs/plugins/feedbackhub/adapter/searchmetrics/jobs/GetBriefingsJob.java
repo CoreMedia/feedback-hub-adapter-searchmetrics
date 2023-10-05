@@ -1,13 +1,13 @@
 package com.coremedia.labs.plugins.feedbackhub.adapter.searchmetrics.jobs;
 
-import com.coremedia.labs.plugins.feedbackhub.adapter.searchmetrics.FeedbackSettingsProvider;
+import com.coremedia.feedbackhub.settings.FeedbackSettingsProvider;
+import com.coremedia.labs.plugins.feedbackhub.adapter.searchmetrics.SearchmetricsFeedbackAdapterFactory;
 import com.coremedia.labs.plugins.searchmetrics.SearchmetricsService;
 import com.coremedia.labs.plugins.searchmetrics.SearchmetricsSettings;
 import com.coremedia.rest.cap.jobs.GenericJobErrorCode;
 import com.coremedia.rest.cap.jobs.Job;
 import com.coremedia.rest.cap.jobs.JobContext;
 import com.coremedia.rest.cap.jobs.JobExecutionException;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
@@ -51,6 +51,6 @@ public class GetBriefingsJob implements Job {
   }
 
   private SearchmetricsSettings getSettings() {
-    return feedbackSettingsProvider.getSettings(groupId, siteId);
+    return feedbackSettingsProvider.getSettings(SearchmetricsSettings.class, SearchmetricsFeedbackAdapterFactory.TYPE, groupId, siteId);
   }
 }

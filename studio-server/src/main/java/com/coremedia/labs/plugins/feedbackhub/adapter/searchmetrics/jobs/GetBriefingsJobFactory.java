@@ -1,6 +1,6 @@
 package com.coremedia.labs.plugins.feedbackhub.adapter.searchmetrics.jobs;
 
-import com.coremedia.labs.plugins.feedbackhub.adapter.searchmetrics.FeedbackSettingsProvider;
+import com.coremedia.feedbackhub.settings.FeedbackSettingsProvider;
 import com.coremedia.labs.plugins.searchmetrics.SearchmetricsService;
 import com.coremedia.rest.cap.jobs.Job;
 import com.coremedia.rest.cap.jobs.JobFactory;
