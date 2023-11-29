@@ -1,7 +1,7 @@
 package com.coremedia.labs.plugins.searchmetrics;
 
 import com.coremedia.cap.common.CapConnection;
-import com.coremedia.cms.common.plugins.beans_for_plugins.CommonBeansForPluginsConfiguration;
+import com.coremedia.cms.common.plugins.beans_for_plugins2.CommonBeansForPluginsConfiguration;
 import com.coremedia.labs.plugins.searchmetrics.helper.BriefingAssigments;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

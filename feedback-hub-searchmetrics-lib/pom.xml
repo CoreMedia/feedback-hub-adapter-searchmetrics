@@ -84,7 +84,7 @@
     </dependency>
     <dependency>
       <groupId>com.coremedia.cms</groupId>
-      <artifactId>common.beans-for-plugins</artifactId>
+      <artifactId>common.beans-for-plugins-container</artifactId>
       <scope>provided</scope>
     </dependency>
     <dependency>
