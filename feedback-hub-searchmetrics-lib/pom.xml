@@ -5,7 +5,7 @@
 
   <groupId>com.coremedia.labs.plugins</groupId>
   <artifactId>feedback-hub-searchmetrics-lib</artifactId>
-  <version>2.0.3</version>
+  <version>2.0.4-SNAPSHOT</version>
   <packaging>jar</packaging>
   <description>Lib for Feedback Hub's Searchmetrics Adapter</description>
 
