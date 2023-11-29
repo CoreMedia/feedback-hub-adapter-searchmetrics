@@ -12,9 +12,9 @@
     <maven.compiler.release>11</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <cm.studio-server.core.version>2307.1</cm.studio-server.core.version>
-    <cm.common.core.version>2307.1</cm.common.core.version>
-    <cm.middle.core.version>2307.1</cm.middle.core.version>
+    <cm.studio-server.core.version>2310.1</cm.studio-server.core.version>
+    <cm.common.core.version>2310.1</cm.common.core.version>
+    <cm.middle.core.version>2310.1</cm.middle.core.version>
   </properties>
 
   <repositories>
@@ -70,16 +70,11 @@
     </dependency>
     <dependency>
       <groupId>com.coremedia.cms</groupId>
-      <artifactId>common.beans-for-plugins</artifactId>
+      <artifactId>common.beans-for-plugins-container</artifactId>
     </dependency>
     <dependency>
       <groupId>com.coremedia.ui</groupId>
       <artifactId>cap-rest-service</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.coremedia.cms</groupId>
-      <artifactId>cap-unified-api-services</artifactId>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -90,11 +85,6 @@
     <dependency>
       <groupId>com.coremedia.feedbackhub</groupId>
       <artifactId>feedback-hub-api</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.coremedia.cms</groupId>
-      <artifactId>cap-multisite</artifactId>
       <scope>provided</scope>
     </dependency>
     <dependency>

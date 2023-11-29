@@ -1,6 +1,6 @@
 package com.coremedia.labs.plugins.feedbackhub.adapter.searchmetrics.jobs;
 
-import com.coremedia.labs.plugins.feedbackhub.adapter.searchmetrics.FeedbackSettingsProvider;
+import com.coremedia.labs.plugins.feedbackhub.adapter.searchmetrics.SearchmetricsSettingsProvider;
 import com.coremedia.labs.plugins.searchmetrics.SearchmetricsService;
 import com.coremedia.rest.cap.jobs.Job;
 import com.coremedia.rest.cap.jobs.JobFactory;
@@ -9,9 +9,9 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 public class AssignBriefingJobFactory implements JobFactory {
 
   private SearchmetricsService service;
-  private FeedbackSettingsProvider feedbackSettingsProvider;
+  private SearchmetricsSettingsProvider feedbackSettingsProvider;
 
-  public AssignBriefingJobFactory(SearchmetricsService service, FeedbackSettingsProvider feedbackSettingsProvider) {
+  public AssignBriefingJobFactory(SearchmetricsService service, SearchmetricsSettingsProvider feedbackSettingsProvider) {
     this.service = service;
     this.feedbackSettingsProvider = feedbackSettingsProvider;
   }
