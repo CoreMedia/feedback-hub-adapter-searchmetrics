@@ -8,22 +8,22 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 
 public class GetBriefingsJobFactory implements JobFactory {
 
-    private SearchmetricsService service;
-    private SearchmetricsSettingsProvider feedbackSettingsProvider;
+  private SearchmetricsService service;
+  private SearchmetricsSettingsProvider feedbackSettingsProvider;
 
-    public GetBriefingsJobFactory(SearchmetricsService service, SearchmetricsSettingsProvider feedbackSettingsProvider) {
-        this.service = service;
-        this.feedbackSettingsProvider = feedbackSettingsProvider;
-    }
+  public GetBriefingsJobFactory(SearchmetricsService service, SearchmetricsSettingsProvider feedbackSettingsProvider) {
+    this.service = service;
+    this.feedbackSettingsProvider = feedbackSettingsProvider;
+  }
 
-    @Override
-    public boolean accepts(@NonNull String jobType) {
-        return jobType.equals("getBriefings");
-    }
+  @Override
+  public boolean accepts(@NonNull String jobType) {
+    return jobType.equals("getBriefings");
+  }
 
-    @NonNull
-    @Override
-    public Job createJob() {
-        return new GetBriefingsJob(service, feedbackSettingsProvider);
-    }
+  @NonNull
+  @Override
+  public Job createJob() {
+    return new GetBriefingsJob(service,  feedbackSettingsProvider);
+  }
 }

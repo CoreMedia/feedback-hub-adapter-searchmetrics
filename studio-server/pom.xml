@@ -69,11 +69,6 @@
       <version>2.0.5-SNAPSHOT</version>
     </dependency>
     <dependency>
-      <groupId>com.coremedia.cms</groupId>
-      <artifactId>common.beans-for-plugins-container</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
       <groupId>com.coremedia.ui</groupId>
       <artifactId>cap-rest-service</artifactId>
       <scope>provided</scope>

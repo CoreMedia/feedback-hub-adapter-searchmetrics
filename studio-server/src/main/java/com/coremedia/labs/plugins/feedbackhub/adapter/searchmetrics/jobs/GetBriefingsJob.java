@@ -14,42 +14,42 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class GetBriefingsJob implements Job {
-    private static final Logger LOG = LoggerFactory.getLogger(GetBriefingsJob.class);
+  private static final Logger LOG = LoggerFactory.getLogger(GetBriefingsJob.class);
 
-    private final SearchmetricsService service;
-    private final SearchmetricsSettingsProvider feedbackSettingsProvider;
+  private final SearchmetricsService service;
+  private final SearchmetricsSettingsProvider feedbackSettingsProvider;
 
-    private String siteId;
-    private String groupId;
+  private String siteId;
+  private String groupId;
 
-    public GetBriefingsJob(SearchmetricsService service, SearchmetricsSettingsProvider feedbackSettingsProvider) {
-        this.service = service;
-        this.feedbackSettingsProvider = feedbackSettingsProvider;
+  public GetBriefingsJob(SearchmetricsService service, SearchmetricsSettingsProvider feedbackSettingsProvider) {
+    this.service = service;
+    this.feedbackSettingsProvider = feedbackSettingsProvider;
+  }
+
+  @SerializedName("siteId")
+  public void setSiteId(String siteId) {
+    this.siteId = siteId;
+  }
+
+  @SerializedName("groupId")
+  public void setGroupId(String groupId) {
+    this.groupId = groupId;
+  }
+
+  @Nullable
+  @Override
+  public Object call(@NonNull JobContext jobContext) throws JobExecutionException {
+    try {
+      SearchmetricsSettings settings = getSettings();
+      return service.refreshBriefings(settings);
+    } catch (Exception e) {
+      LOG.error("Failed to get briefings for site {}: {}", siteId, e.getMessage());
+      throw new JobExecutionException(GenericJobErrorCode.FAILED);
     }
+  }
 
-    @SerializedName("siteId")
-    public void setSiteId(String siteId) {
-        this.siteId = siteId;
-    }
-
-    @SerializedName("groupId")
-    public void setGroupId(String groupId) {
-        this.groupId = groupId;
-    }
-
-    @Nullable
-    @Override
-    public Object call(@NonNull JobContext jobContext) throws JobExecutionException {
-        try {
-            SearchmetricsSettings settings = getSettings();
-            return service.refreshBriefings(settings);
-        } catch (Exception e) {
-            LOG.error("Failed to get briefings for site {}: {}", siteId, e.getMessage());
-            throw new JobExecutionException(GenericJobErrorCode.FAILED);
-        }
-    }
-
-    private SearchmetricsSettings getSettings() {
-        return feedbackSettingsProvider.getSettings(groupId, siteId);
-    }
+  private SearchmetricsSettings getSettings() {
+    return feedbackSettingsProvider.getSettings(groupId, siteId);
+  }
 }

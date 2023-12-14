@@ -14,50 +14,50 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class GetBriefingDetailsJob implements Job {
-    private static final Logger LOG = LoggerFactory.getLogger(GetBriefingDetailsJob.class);
+  private static final Logger LOG = LoggerFactory.getLogger(GetBriefingDetailsJob.class);
 
-    private final SearchmetricsSettingsProvider feedbackSettingsProvider;
-    private final SearchmetricsService service;
+  private final SearchmetricsSettingsProvider feedbackSettingsProvider;
+  private final SearchmetricsService service;
 
-    private String siteId;
-    private String groupId;
-    private String briefingId;
+  private String siteId;
+  private String groupId;
+  private String briefingId;
 
-    public GetBriefingDetailsJob(@NonNull SearchmetricsSettingsProvider feedbackSettingsProvider, SearchmetricsService service) {
-        this.feedbackSettingsProvider = feedbackSettingsProvider;
-        this.service = service;
+  public GetBriefingDetailsJob(@NonNull SearchmetricsSettingsProvider feedbackSettingsProvider, SearchmetricsService service) {
+    this.feedbackSettingsProvider = feedbackSettingsProvider;
+    this.service = service;
+  }
+
+  @SerializedName("siteId")
+  public void setSiteId(String siteId) {
+    this.siteId = siteId;
+  }
+
+  @SerializedName("groupId")
+  public void setGroupId(String groupId) {
+    this.groupId = groupId;
+  }
+
+
+  @SerializedName("briefingId")
+  public void setBriefingId(String briefingId) {
+    this.briefingId = briefingId;
+  }
+
+  @Nullable
+  @Override
+  public Object call(@NonNull JobContext jobContext) throws JobExecutionException {
+    try {
+      SearchmetricsSettings settings = getSettings();
+      service.refreshBriefing(settings, briefingId);
+      return service.getBriefing(settings, briefingId);
+    } catch (Exception e) {
+      LOG.error("Failed to get briefing details for briefing " + briefingId + ": " + e.getMessage(), e);
+      throw new JobExecutionException(GenericJobErrorCode.FAILED);
     }
+  }
 
-    @SerializedName("siteId")
-    public void setSiteId(String siteId) {
-        this.siteId = siteId;
-    }
-
-    @SerializedName("groupId")
-    public void setGroupId(String groupId) {
-        this.groupId = groupId;
-    }
-
-
-    @SerializedName("briefingId")
-    public void setBriefingId(String briefingId) {
-        this.briefingId = briefingId;
-    }
-
-    @Nullable
-    @Override
-    public Object call(@NonNull JobContext jobContext) throws JobExecutionException {
-        try {
-            SearchmetricsSettings settings = getSettings();
-            service.refreshBriefing(settings, briefingId);
-            return service.getBriefing(settings, briefingId);
-        } catch (Exception e) {
-            LOG.error("Failed to get briefing details for briefing " + briefingId + ": " + e.getMessage(), e);
-            throw new JobExecutionException(GenericJobErrorCode.FAILED);
-        }
-    }
-
-    private SearchmetricsSettings getSettings() {
-        return feedbackSettingsProvider.getSettings(groupId, siteId);
-    }
+  private SearchmetricsSettings getSettings() {
+    return feedbackSettingsProvider.getSettings(groupId, siteId);
+  }
 }
